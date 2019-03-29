@@ -12,7 +12,7 @@ sudo apt-get install libc6-armel-cross libc6-dev-armel-cross binutils-arm-linux-
 
 ```
 * STM32CubeMX para initialização de código e geração do makefile inicial.
-* [stlink](https://github.com/texane/stlink)
+* [openocd](http://openocd.org/repos/)
 
 # Hardware
 * Todo
