@@ -4,7 +4,7 @@ Disciplina da Faculdade Federal de Santa Catarina - Projeto em Eletrônica I
 Veja a proposta [aqui](tex_src/proposta).
 
 # Toolchain
-* Transcompiler GCC ARM
+* Crosspiler GCC ARM
 
 No Ubuntu: 
 ```
