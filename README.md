@@ -20,7 +20,7 @@ $ openocd -f bluepill.cfg -c "program /*.bin || *.elf || *.hex\ verify reset exi
 ```
 a partir do programa gerado pelo makefile gerado pelo STM32CubeMX (que requer o compilador de C para ARM).
 
-Para inciar uma seção de debbuging, reprima a opção reset e 
+Para inciar uma seção de debbuging, reprima a opção exit e 
 
 ```
 $ telnet localhost 4444
