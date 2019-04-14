@@ -22,7 +22,7 @@ t = 0:periodo_sampling:(proportional_holdup_time*periodo_carrier);
 
 onda_carrier = sin(2*pi*t*frequencia_carrier); %carrier wave: um seno com frequência delimitada pelos valores de t vezes valor de N(que depende do numero de bits)
 figure(1);
-subplot(3,1,1);
+subplot(5,1,1);
 plot(onda_carrier);
 xlabel('Carrier sinal');
 ylabel('Amplitude');
@@ -39,12 +39,8 @@ pulso_quadrado = [];
 		end
 	end
 
-%pulso_quadrado(1, size(pulso_quadrado)+1) = pulso_quadrado(1, size(pulso_quadrado));
 
-size(pulso_quadrado)
-size(periodo_pulso_quadrado)
-
-subplot(3,1,2)
+subplot(5,1,2)
 plot(pulso_quadrado,'k','Linewidth',2)
 xlabel('Pulso quadrado de Mensagens');
 ylabel('Amplitude');
@@ -82,12 +78,14 @@ for i=1:length(data)
  end
 
 
-subplot(3, 1, 3);
+subplot(5, 1, 3);
 plot(vetor_sinal_modulado, 'm');
 xlabel('Onda quadrada modulada no sinal do carrier');
 ylabel('Amplitude');
 
-figure(2);
-plot(t, carrier_baixa)
-figure(3);
-plot(t, carrier_alta)
+ruido = 10;
+onda_transmitida = awgn(vetor_sinal_modulado, ruido); %coloca ruído
+subplot(5, 1, 4);
+plot(onda_transmitida, 'r');
+xlabel('Sinal recebido');
+ylabel('Amplitude');    
