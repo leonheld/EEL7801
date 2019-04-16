@@ -1,53 +1,116 @@
-\documentclass[12pt,a4paper]{article}
-\usepackage[latin1]{inputenc}
-\usepackage{pgfplots}
+\documentclass[11pt,a4paper]{report}
+\usepackage[utf8]{inputenc}
 \usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{pgfplots}
+\usepackage{circuitikz}
 
 \pgfmathdeclarefunction{gauss}{2}{%
 	\pgfmathparse{1/(#2*sqrt(2*pi))*exp(-((x-#1)^2)/(2*#2^2))}%
 }
-	
 
-\title{My first document}
-\date{2013-09-01}
-\author{John Doe}
-
+\title{RelatÃ³rio 1  \\
+	Projeto em EletrÃ´nica I - EEL7801 \\ \vfill
+	\normalsize{Universidade Federal de Santa Catarina - UFSC \\
+		Professora: Daniela Ota Hisayasu Suzuki}
+	\author{
+		{Luiz Augusto Frazatto Fernandes: \it{17202752}} \\
+		{Leonardo JosÃ© Held: \it{17203984}}
+	}
+}
+\date{02 de Maio de 2019}
 \begin{document}
 	\maketitle
-	\newpage
-	\section{Metodologia: modulação e demodulação de sinais digitais}
-	\subsection{Motivação da escolha do processo de modulação}
-	\paragraph{}Escolheu-se o processo de modulação por Chaveamento de Deslocamento de Frequência (FSK, em inglês). São usadas duas frequências ótimas para se representar 0 e 1, e ambas são obtidas experimentalmente: a partir de testes realizados com o transdutor (microfone), é gerada uma curva normal, em que a resposta desse ao sinal recebido é ótima para uma frequência específica (frequência da onda portadora). São, então, obtidas duas outras frequências equidistantes do centro da curva gaussiana, e a cada uma é associado um valor binário.
-	\paragraph{}O processo de modulação, em si, consiste na transformação de um sinal PWM em um analógico (que é controlado por um STM32)que, por sua vez, é emitido por um tweeter. O sinal (sonoro) é recebido por um microfone controlado por outro STM32, que realizará o processo de demodulação do sinal.
-	\subsection{Algoritmo da modulação (FSK)}	
+	\setcounter{chapter}{0}
+	\chapter{Metodologia}
+	\section{ModulaÃ§Ã£o e demodulaÃ§Ã£o de sinais}
+	\subsection{MotivaÃ§Ã£o da escolha do algoritmo}
 	\paragraph{}
-	Empiricamente são testadas (com o microfone) diferentes frequências emitidas pelo tweeter e recebidas pelo microfone. A de melhor resposta (dada, no gráfico abaixo, por $f$) é associada à onda portadora (carrier). É, então, estabelecido um desvio $\Delta{f}$, e, a partir desse, são determinadas:
+	\paragraph{}
+	Escolheu-se o processo de modulaÃ§Ã£o por Chaveamento de Deslocamento de FrequÃªncia (FSK, em inglÃªs). SÃ£o usadas duas frequÃªncias Ã³timas para se representar 0 e 1, e ambas sÃ£o obtidas experimentalmente: a partir de testes realizados com o transdutor (microfone), Ã© gerada uma curva normal, em que a resposta desse ao sinal recebido Ã© Ã³tima para uma frequÃªncia especÃ­fica (frequÃªncia da onda portadora). SÃ£o, entÃ£o, obtidas duas outras frequÃªncias equidistantes do centro da curva gaussiana, e a cada uma Ã© associado um valor binÃ¡rio.
+	\paragraph{}
+	O processo de modulaÃ§Ã£o, em si, consiste na transformaÃ§Ã£o de um sinal PWM em um analÃ³gico (que Ã© controlado por um STM32) que, por sua vez, Ã© emitido por um tweeter. O sinal (sonoro) Ã© recebido por um microfone controlado por outro STM32, que realizarÃ¡ o processo de demodulaÃ§Ã£o do sinal.
+	\subsection{Algoritmo da modulaÃ§Ã£o (FSK)}	
+	\paragraph{}
+	Empiricamente sÃ£o testadas (com o microfone) diferentes frequÃªncias emitidas pelo tweeter e recebidas pelo microfone. A de melhor resposta (dada, no grÃ¡fico abaixo, por $f$) Ã© associada Ã  onda portadora (carrier). Ã‰, entÃ£o, estabelecido um desvio $\Delta{f}$, e, a partir desse, sÃ£o determinadas:
 	\begin{center}
-	\begin{align*}
-	f_L = f - \Delta{f}\\
-	f_H = f + \Delta{f}
-	\end{align*}
+		\begin{align*}
+		f_L = f - \Delta{f}\\
+		f_H = f + \Delta{f}
+		\end{align*}
 	\end{center}
-de tal forma que à $f_H$ se associa o bit $1$, e à $f_L$, $0$.
+	de tal forma que Ã  $f_H$ se associa o bit $1$, e Ã  $f_L$, $0$.
+	
+	\paragraph{}
 	
 	\begin{center}
-	\begin{tikzpicture}
-	\begin{axis}[every axis plot 
-	post/.append style={
-	mark=none,domain=0:50, samples=50,smooth},
-	axis x line*=bottom,
-	axis y line*=left,
-	xlabel = {Frequência},
-	ylabel = {Resposta},
-	xtick=\empty,
-	ytick=\empty,	
-	enlargelimits=upper]
-	\addplot[mark=*] coordinates {(25,10^-1)} node[pin=270:{$f$}]{} ;
-	\addplot[mark=*] coordinates {(23,8*10^-2)} node[pin=150:{$f_L$}]{} ;
-	\addplot[mark=*] coordinates {(27,8*10^-2)} node[pin=30:{$f_H$}]{} ;
-	\addplot{gauss(25,4};
-	\end{axis}
-	\end{tikzpicture}
+		\begin{tikzpicture}
+		\begin{axis}[every axis plot 
+		post/.append style={
+		mark=none,domain=0:50, samples=50,smooth},
+		axis x line*=bottom,
+		axis y line*=left,
+		xlabel = {FrequÃªncia},
+		ylabel = {Resposta (queda de tensÃ£o/potÃªncia)},
+		xtick=\empty,
+		ytick=\empty,	
+		enlargelimits=upper]
+		\addplot[mark=*] coordinates {(25,10^-1)} node[pin=270:{$f$}]{} ;
+		\addplot[mark=*] coordinates {(23,8*10^-2)} node[pin=150:{$f_L$}]{} ;
+		\addplot[mark=*] coordinates {(27,8*10^-2)} node[pin=30:{$f_H$}]{} ;
+		\addplot{gauss(25,4)};
+		\end{axis}
+		\end{tikzpicture}
 	\end{center}
+
+\subsection{ObtenÃ§Ã£o das frequÃªncias Ã³timas}
+\paragraph{}
+Por meio do circuito da (inserir nÃºmero da imagem aqui) Ã© medida a tensÃ£o/potÃªncia dissipada nos terminais do microfone. A curva (prÃ³xima Ã Â normal descrita acima) Ã© gerada a partir da potÃªncia consumida/queda de tensÃ£o que Ã© medida entre os terminais do microfone.
+
+\begin{center}
+	\begin{circuitikz} \draw
+		(0,0) to (6,0) 
+		to [vR, l=$Microfone$] (6,3)
+		to [resistor, l=$R$] (0,3)
+		to [vsourcesin, l= $Gerador$] (0,0)
+		(2,0) to (2,-1) node[ground] {}
+		(6,0) -- (9,1)
+		(6,3) -- (9,2)
+		(9,1) to [voltmeter, l=$Voltimetro$] (9,2)
+		;
+	\end{circuitikz}
+\end{center}
+
+\paragraph{}
+Quanto maior a queda de tensÃ£o no microfone, maior a energia por ele consumida em relaÃ§Ã£o ao resto do circuito (divisor de tensÃ£o), logo, melhor serÃ¡ sua resposta aos estÃ­Â­mulos sonoros testados.
+
+
+\chapter{Title}
+	\section{Lorem}
+	\subsection{title}
+
+		\section{Lorem}
+	\subsection{title}
+	
+		\section{Lorem}
+	\subsection{title}
+	
+		\section{Lorem}
+	\subsection{title}
+	
+		\setcounter{chapter}{1}
+	\chapter{}
+	
+		\section{Lorem}
+	\subsection{title}
+	
+		\section{Lorem}
+	\subsection{title}
+	
+		\section{Lorem}
+	\subsection{title}
+	
 	
 \end{document}
