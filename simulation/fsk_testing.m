@@ -7,7 +7,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %MODULAÇÃO, DEMODULAÇÃO COM INTRODUÇÃO DE NOISE E AVALIAÇÃO DE ERRO DE BIT
-
+%se for gerar randomicamente: data = randi([0 1], 1, 10);
 data = [1 0 1 0 1 1 1 0 0 1]; %defina os bits a serem modulados na onda
 nro_bits = length(data);
 
@@ -89,7 +89,7 @@ ylabel('Amplitude');
 
 %adiciona white gaussian noise no sinal (a fins de imitar a vida real e tudo mais)
 
-ruido = 10;
+ruido = 0.1;
 onda_transmitida = awgn(sinal_modulado, ruido); %adiciona ruido no sinal
 subplot(5, 1, 4);
 plot(onda_transmitida, 'r');
