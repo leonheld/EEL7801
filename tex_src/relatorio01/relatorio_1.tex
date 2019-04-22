@@ -66,9 +66,34 @@
 		\end{tikzpicture}
 	\end{center}
 
+
+Há, também, uma segunda possibilidade: de o microfone não reagir significativamente a diferentes frequências, mas de ainda assim conseguir diferenciá-las. Isto é: o microfone identifica quando duas frequências recebidas são diferentes, mas sua curva de queda de tensão se aproxima de uma constante, como no exemplo a seguir:
+
+
+\begin{center}
+	\begin{tikzpicture}
+	\begin{axis}[every axis plot 
+	post/.append style={
+	mark=none,domain=6:50, samples=50,smooth},
+	axis x line*=bottom,
+	axis y line*=left,
+	xlabel = {Frequência},
+	ylabel = {Resposta (queda de tensão/potência)},
+	xtick=\empty,
+	ytick=\empty,	
+	enlargelimits=upper]
+	\addplot {2}; 
+	\end{axis}
+	\end{tikzpicture}
+\end{center}
+
+
+	Caso esse comportamento seja verificado, o que há de se fazer é, simplesmente, escolher duas frequências quaisquer para se trabalhar no algoritmo.
+
 \subsection{Obtenção das frequências ótimas}
 \paragraph{}
 Por meio do circuito da (inserir número da imagem aqui) é medida a tensão/potência dissipada nos terminais do microfone. A curva (próxima à normal descrita acima) é gerada a partir da potência consumida/queda de tensão que é medida entre os terminais do microfone.
+
 
 \begin{center}
 	\begin{circuitikz} \draw
@@ -87,7 +112,7 @@ Por meio do circuito da (inserir número da imagem aqui) é medida a tensão/pot
 
 Quanto maior a queda de tensão no microfone, maior a energia por ele consumida em relação ao resto do circuito (divisor de tensão), logo, melhor será sua resposta aos estí­mulos sonoros testados.
 
-	\subsection{Filtragem do sinal analógico}
+	\subsection{Tratamento do sinal analógico}
 \paragraph{}
 Será utilizado, a priori, um filtro passa-baixa a fim de reduzir o ruído de alta frequência, além de um amplificador não inversor (que garantirá uma clara análise do sinal).
 
@@ -121,7 +146,17 @@ Será utilizado, a priori, um filtro passa-baixa a fim de reduzir o ruído de al
 	\end{equation}
 	
 	
-
+	Espera-se trabalhar com frequências na faixa audível ($20 Hz$ a $20 kHz$). Portanto, pode-se colocar uma frequência de corte razoável de 22 kHz a priori, já que, dessa forma, o ruído de alta frequência filtrado não interferirá nos sinais desejados.
+	
+	
+	Para tal, usamos um capacitor com capacitância $C = 0.1\mu{F}$, o que nos resulta:
+	
+	\begin{equation}
+	R_1 = \frac{1}{2\cdot{\pi}\cdot{0.1}\cdot{10^{-6}}\cdot{22}\cdot{10^3}} \approx 72\Omega 
+	\end{equation}
+	
+	Para avaliarmos o ganho, deixamos em $R_3$ um potenciômetro e, assim, avaliamos, a posteriori, qual o melhor ganho para se projetar (aquele cuja análise posterior for facilitada).
+	
 
 \chapter{Title}
 	\section{Lorem}
