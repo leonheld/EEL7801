@@ -30,7 +30,8 @@
 	\paragraph{}
 	\paragraph{}
 	Escolheu-se o processo de modulação por Chaveamento de Deslocamento de Frequência (FSK, em inglês). São usadas duas frequências ótimas para se representar 0 e 1, e ambas são obtidas experimentalmente: a partir de testes realizados com o transdutor (microfone), é gerada uma curva normal, em que a resposta desse ao sinal recebido é ótima para uma frequência específica (frequência da onda portadora). São, então, obtidas duas outras frequências equidistantes do centro da curva gaussiana, e a cada uma é associado um valor binário.
-	\paragraph{}
+	
+	
 	O processo de modulação, em si, consiste na transformação de um sinal PWM em um analógico (que é controlado por um STM32) que, por sua vez, é emitido por um tweeter. O sinal (sonoro) é recebido por um microfone controlado por outro STM32, que realizará o processo de demodulação do sinal.
 	\subsection{Algoritmo da modulação (FSK)}	
 	\paragraph{}
@@ -83,8 +84,43 @@ Por meio do circuito da (inserir número da imagem aqui) é medida a tensão/pot
 	\end{circuitikz}
 \end{center}
 
-\paragraph{}
+
 Quanto maior a queda de tensão no microfone, maior a energia por ele consumida em relação ao resto do circuito (divisor de tensão), logo, melhor será sua resposta aos estí­mulos sonoros testados.
+
+	\subsection{Filtragem do sinal analógico}
+\paragraph{}
+Será utilizado, a priori, um filtro passa-baixa a fim de reduzir o ruído de alta frequência, além de um amplificador não inversor (que garantirá uma clara análise do sinal).
+
+\begin{center}
+	\begin{circuitikz} \draw
+		(0, 0) node[op amp] (opamp) {}
+		(opamp.-) -- (-3, 0.5)
+		to[C, l=$C$] (-3, -4)
+		(-3, 0.5) to[R, *-, l=$R_1$] (-6, 0.5) node[label={$V_{in}$}] {}
+		(opamp.+) to[short,*-] ++(0,-1.5) coordinate (leftR)
+		to[R, l=$R_3$] (leftR -| opamp.out)
+		to[short,-*] (opamp.out)
+		to ++(1,0) node[label={$V_{out}$}] {}
+		(-1, -2) to[R, *-, l=$R_2$] (-1,-4)
+		(-3, -4) -- (-1, -4)
+		(-2,-4) to (-2,-5) node[ground] {}
+		;
+	\end{circuitikz}
+\end{center}
+
+
+	A frequência de corte do circuito acima é dada por \newline
+	\begin{equation}
+	f_c = \frac{1}{2\cdot\pi\cdot{R_1}\cdot{C}}
+	\end{equation}
+	
+	
+	E o ganho por \newline
+	\begin{equation}
+	\frac{V_{out}}{V_{in}} = G = 1 + \frac{R_3}{R_2}
+	\end{equation}
+	
+	
 
 
 \chapter{Title}
