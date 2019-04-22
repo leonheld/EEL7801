@@ -30,7 +30,8 @@
 	\paragraph{}
 	\paragraph{}
 	Escolheu-se o processo de modulação por Chaveamento de Deslocamento de Frequência (FSK, em inglês). São usadas duas frequências ótimas para se representar 0 e 1, e ambas são obtidas experimentalmente: a partir de testes realizados com o transdutor (microfone), é gerada uma curva normal, em que a resposta desse ao sinal recebido é ótima para uma frequência específica (frequência da onda portadora). São, então, obtidas duas outras frequências equidistantes do centro da curva gaussiana, e a cada uma é associado um valor binário.
-	\paragraph{}
+	
+	
 	O processo de modulação, em si, consiste na transformação de um sinal PWM em um analógico (que é controlado por um STM32) que, por sua vez, é emitido por um tweeter. O sinal (sonoro) é recebido por um microfone controlado por outro STM32, que realizará o processo de demodulação do sinal.
 	\subsection{Algoritmo da modulação (FSK)}	
 	\paragraph{}
@@ -65,9 +66,34 @@
 		\end{tikzpicture}
 	\end{center}
 
+
+Há, também, uma segunda possibilidade: de o microfone não reagir significativamente a diferentes frequências, mas de ainda assim conseguir diferenciá-las. Isto é: o microfone identifica quando duas frequências recebidas são diferentes, mas sua curva de queda de tensão se aproxima de uma constante, como no exemplo a seguir:
+
+
+\begin{center}
+	\begin{tikzpicture}
+	\begin{axis}[every axis plot 
+	post/.append style={
+	mark=none,domain=6:50, samples=50,smooth},
+	axis x line*=bottom,
+	axis y line*=left,
+	xlabel = {Frequência},
+	ylabel = {Resposta (queda de tensão/potência)},
+	xtick=\empty,
+	ytick=\empty,	
+	enlargelimits=upper]
+	\addplot {2}; 
+	\end{axis}
+	\end{tikzpicture}
+\end{center}
+
+
+	Caso esse comportamento seja verificado, o que há de se fazer é, simplesmente, escolher duas frequências quaisquer para se trabalhar no algoritmo.
+
 \subsection{Obtenção das frequências ótimas}
 \paragraph{}
 Por meio do circuito da (inserir número da imagem aqui) é medida a tensão/potência dissipada nos terminais do microfone. A curva (próxima à normal descrita acima) é gerada a partir da potência consumida/queda de tensão que é medida entre os terminais do microfone.
+
 
 \begin{center}
 	\begin{circuitikz} \draw
@@ -76,16 +102,61 @@ Por meio do circuito da (inserir número da imagem aqui) é medida a tensão/pot
 		to [resistor, l=$R$] (0,3)
 		to [vsourcesin, l= $Gerador$] (0,0)
 		(2,0) to (2,-1) node[ground] {}
-		(6,0) -- (9,1)
-		(6,3) -- (9,2)
-		(9,1) to [voltmeter, l=$Voltimetro$] (9,2)
+		(6,0) -- (9,0)
+		(6,3) to (9,3)
+		(9,0) to [voltmeter, l=$Voltimetro$] (9,3)
 		;
 	\end{circuitikz}
 \end{center}
 
-\paragraph{}
+
 Quanto maior a queda de tensão no microfone, maior a energia por ele consumida em relação ao resto do circuito (divisor de tensão), logo, melhor será sua resposta aos estí­mulos sonoros testados.
 
+	\subsection{Tratamento do sinal analógico}
+\paragraph{}
+Será utilizado, a priori, um filtro passa-baixa a fim de reduzir o ruído de alta frequência, além de um amplificador não inversor (que garantirá uma clara análise do sinal).
+
+\begin{center}
+	\begin{circuitikz} \draw
+		(0, 0) node[op amp] (opamp) {}
+		(opamp.-) -- (-3, 0.5)
+		to[C, l=$C$] (-3, -4)
+		(-3, 0.5) to[R, *-, l=$R_1$] (-6, 0.5) node[label={$V_{in}$}] {}
+		(opamp.+) to[short,*-] ++(0,-1.5) coordinate (leftR)
+		to[R, l=$R_3$] (leftR -| opamp.out)
+		to[short,-*] (opamp.out)
+		to ++(1,0) node[label={$V_{out}$}] {}
+		(-1, -2) to[R, *-, l=$R_2$] (-1,-4)
+		(-3, -4) -- (-1, -4)
+		(-2,-4) to (-2,-5) node[ground] {}
+		;
+	\end{circuitikz}
+\end{center}
+
+
+	A frequência de corte do circuito acima é dada por \newline
+	\begin{equation}
+	f_c = \frac{1}{2\cdot\pi\cdot{R_1}\cdot{C}}
+	\end{equation}
+	
+	
+	E o ganho por \newline
+	\begin{equation}
+	\frac{V_{out}}{V_{in}} = G = 1 + \frac{R_3}{R_2}
+	\end{equation}
+	
+	
+	Espera-se trabalhar com frequências na faixa audível ($20 Hz$ a $20 kHz$). Portanto, pode-se colocar uma frequência de corte razoável de 22 kHz a priori, já que, dessa forma, o ruído de alta frequência filtrado não interferirá nos sinais desejados.
+	
+	
+	Para tal, usamos um capacitor com capacitância $C = 0.1\mu{F}$, o que nos resulta:
+	
+	\begin{equation}
+	R_1 = \frac{1}{2\cdot{\pi}\cdot{0.1}\cdot{10^{-6}}\cdot{22}\cdot{10^3}} \approx 72\Omega 
+	\end{equation}
+	
+	Para avaliarmos o ganho, deixamos em $R_3$ um potenciômetro e, assim, avaliamos, a posteriori, qual o melhor ganho para se projetar (aquele cuja análise posterior for facilitada).
+	
 
 \chapter{Title}
 	\section{Lorem}
