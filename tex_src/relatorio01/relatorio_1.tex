@@ -22,19 +22,20 @@
 }
 \date{02 de Maio de 2019}
 \begin{document}
+	
+
 	\maketitle
 	\setcounter{chapter}{0}
 	\chapter{Metodologia}
 	\section{Modulação e demodulação de sinais}
 	\subsection{Motivação da escolha do algoritmo}
-	\paragraph{}
-	\paragraph{}
+	
 	Escolheu-se o processo de modulação por Chaveamento de Deslocamento de Frequência (FSK, em inglês). São usadas duas frequências ótimas para se representar 0 e 1, e ambas são obtidas experimentalmente: a partir de testes realizados com o transdutor (microfone), é gerada uma curva normal, em que a resposta desse ao sinal recebido é ótima para uma frequência específica (frequência da onda portadora). São, então, obtidas duas outras frequências equidistantes do centro da curva gaussiana, e a cada uma é associado um valor binário.
 	
 	
 	O processo de modulação, em si, consiste na transformação de um sinal PWM em um analógico (que é controlado por um STM32) que, por sua vez, é emitido por um tweeter. O sinal (sonoro) é recebido por um microfone controlado por outro STM32, que realizará o processo de demodulação do sinal.
 	\subsection{Algoritmo da modulação (FSK)}	
-	\paragraph{}
+
 	Empiricamente são testadas (com o microfone) diferentes frequências emitidas pelo tweeter e recebidas pelo microfone. A de melhor resposta (dada, no gráfico abaixo, por $f$) é associada à onda portadora (carrier). É, então, estabelecido um desvio $\Delta{f}$, e, a partir desse, são determinadas:
 	\begin{center}
 		\begin{align*}
@@ -44,7 +45,7 @@
 	\end{center}
 	de tal forma que à $f_H$ se associa o bit $1$, e à $f_L$, $0$.
 	
-	\paragraph{}
+
 	
 	\begin{center}
 		\begin{tikzpicture}
@@ -113,7 +114,7 @@ Por meio do circuito da (inserir número da imagem aqui) é medida a tensão/pot
 Quanto maior a queda de tensão no microfone, maior a energia por ele consumida em relação ao resto do circuito (divisor de tensão), logo, melhor será sua resposta aos estí­mulos sonoros testados.
 
 	\subsection{Tratamento do sinal analógico}
-\paragraph{}
+
 Será utilizado, a priori, um filtro passa-baixa a fim de reduzir o ruído de alta frequência, além de um amplificador não inversor (que garantirá uma clara análise do sinal).
 
 \begin{center}
