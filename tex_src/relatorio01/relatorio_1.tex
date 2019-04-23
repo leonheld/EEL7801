@@ -8,6 +8,7 @@
 \usepackage{circuitikz}
 \usepackage{hyperref}
 \usepackage{tikz}
+\usepackage{minted}
 \usetikzlibrary{calc,trees,positioning,arrows,chains,shapes.geometric,%
 	decorations.pathreplacing,decorations.pathmorphing,shapes,%
 	matrix,shapes.symbols}
@@ -216,10 +217,18 @@ Será utilizado, a priori, um filtro passa-baixa a fim de reduzir o ruído de al
 	
 	``The Arm Cortex-M3 processor is the industry-leading 32-bit processor for highly deterministic real-time applications."\\
 	
-	Depois de uma curta pesquisa de mercado, a placa STM32F103C8 da ST™ parece preencher bem os quesitos supraescritos, com um processador Cortex-M3™ de 72MHz de clock interno, é um dos microcontroladores mais potentes da categoria fabricados pela ST™, o que preenche bem o requisito {\bf 3}.\\
+	Depois de uma curta pesquisa de mercado, a placa STM32F103C8 da ST™, também conhecida como {\it bluepill}, parece preencher bem os quesitos supraescritos, com um processador Cortex-M3™ de 72MHz de clock interno, é um dos microcontroladores mais potentes da categoria fabricados pela ST™, o que preenche bem o requisito {\bf 3}.\\
+	\begin{center}
+		\includegraphics[width=0.5\textwidth]{bluepill}\\
+		\footnotesize{STM32F103C8.}
+	\end{center}
+
 	
 	Qualquer processador dessa linha da ST™ pode ser programado e debuggado via uma interface chamada ST-Link™, que também foi de fácil obtenção e baixo custo, e basicamente inclui um outro processador que conversa em tempo real com a placa alvo.
-
+	\begin{center}
+	\includegraphics[width=0.2\textwidth]{stlink}\\
+	\footnotesize{Programador SWD ST-Link.}
+	\end{center}
 	
 	\subsection{Suporte}
 	O suporte oferecido tanto pela ARM™ quanto pela ST™ é extenso. A ST™ produz seu próprio software de pré-configuração e geração de código chamado STM32CubeMX™, que é uma {\it Graphical User Interface} usada para gerar o código inicial, como configuração de clock interno e dos pinos do processador, por exemplo.\\
@@ -255,7 +264,8 @@ Será utilizado, a priori, um filtro passa-baixa a fim de reduzir o ruído de al
 	\draw[<-] (gcc.east) -- (makefile.west);
 	\draw[<-] (makefile.north) -- (STM.east);
 	\draw[<-] (HAL.north) -- (STM.west);
-	\end{tikzpicture}
+	\end{tikzpicture}\vspace{0.1cm}
+	\footnotesize{Flowchart de programação e desenvolvimento do firmware.}
 	\end{center}
 \chapter{Title}
 	\section{Title}
