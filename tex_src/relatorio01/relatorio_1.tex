@@ -8,7 +8,9 @@
 \usepackage{circuitikz}
 \usepackage{hyperref}
 \usepackage{tikz}
+\usepackage{pdfpages}
 \usepackage{minted}
+	\definecolor{bg}{rgb}{0.95,0.95,0.95}
 \usetikzlibrary{calc,trees,positioning,arrows,chains,shapes.geometric,%
 	decorations.pathreplacing,decorations.pathmorphing,shapes,%
 	matrix,shapes.symbols}
@@ -267,9 +269,142 @@ Será utilizado, a priori, um filtro passa-baixa a fim de reduzir o ruído de al
 	\end{tikzpicture}\vspace{0.1cm}
 	\footnotesize{Flowchart de programação e desenvolvimento do firmware.}
 	\end{center}
+
 \chapter{Title}
 	\section{Title}
-	\subsection{title}
+	\subsection{graphics}
+	\includepdf[page={1}]{sinais}
+	\includepdf[page={1}]{sinais_comp}
+	\subsection{demod}
 	
+	\begin{minted}[frame=lines,
+	framesep=2mm,
+	baselinestretch=1.2,
+	bgcolor=bg,
+	fontsize=\footnotesize,
+	linenos
+	]{matlab}
+function [NORMALIZED_BIT_ERROR_RATE] = fsk_demod(sinal_modulado, ruido)
+
+    onda_transmitida = awgn(sinal_modulado, ruido); %adiciona ruido no sinal
+
+    data = [1 0 1 0 1 1 1 0 0 1]; %apenas necessario pra computar a taxa de erro
+    nro_bits = length(data);
+
+    holdup_time = 10;
+
+    frequencia_carrier = 1000; 
+    periodo_carrier = 1/frequencia_carrier;
+
+    f_sampling = frequencia_carrier * 100;
+    periodo_sampling = 1/f_sampling;
+
+    holdup_time = 10;
+    
+    tempo_sampling = 0:periodo_sampling:(periodo_carrier*holdup_time);
+
+    negative=0;
+    positive=0;
+
+    sampleValue = nro_bits;
+    dif_sinal=0;
+    nro_zeros=0;
+    amostra_de_zeros=[];
+    k=1;
+    for i=1:10
+        for j=1:length(tempo_sampling)
+            if(dif_sinal>sampleValue)
+                if(onda_transmitida(1,k)>0)
+                    positive=1;    
+                end
+                if(onda_transmitida(1,k)<0)
+                    negative=1;
+                end
+            end
+            k++;
+            dif_sinal=dif_sinal+1;
+            if(positive==1 && negative==1)
+                nro_zeros++;
+                positive=0;
+                dif_sinal=0;
+                negative=0;
+            end
+        end
+        amostra_de_zeros=[amostra_de_zeros nro_zeros];
+        nro_zeros=0;     
+    end
+
+    %normalize os vetores dividindo-os pela MALVADA
+    amostra_de_zeros=amostra_de_zeros/mean(amostra_de_zeros);
+
+    filtData=[];
+    for i=1:length(amostra_de_zeros)
+     if(amostra_de_zeros(i)>=1)
+         filtData=[filtData 1];
+     else
+         filtData=[filtData 0];
+     end
+    end
+
+    [BIT_ERROR_RATE NORMALIZED_BIT_ERROR_RATE]=biterr(data,filtData);
+end
+	
+	\end{minted}
+	
+\subsection{mod}
+	\begin{minted}[frame=lines,
+framesep=2mm,
+baselinestretch=1.2,
+bgcolor=bg,
+fontsize=\footnotesize,
+linenos
+]{matlab}
+
+data = [1 0 1 0 1 1 1 0 0 1]; %defina os bits a serem modulados na onda
+nro_bits = length(data);
+
+%DEFINIR SINAL CARRIER
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%frequência e período da onda carrier
+frequencia_carrier = 1000; 
+periodo_carrier = 1/frequencia_carrier;
+
+%frequência e período que definem a sampling rate(baseado na f e t da carrier)
+f_sampling = frequencia_carrier * 100;
+periodo_sampling = 1/f_sampling;
+
+
+holdup_time = 10;
+proportional_holdup_time = holdup_time*nro_bits;
+
+t = 0:periodo_sampling:(proportional_holdup_time*periodo_carrier);
+
+
+onda_carrier = sin(2*pi*t*frequencia_carrier); 
+
+%PROCESSO DE MODULAÇÃO
+
+delta_frequencia = 0.5; % o quão violenta vai ser o `amortecimento` nos carregamentos de frequencia
+frequencia_alta = frequencia_carrier + (frequencia_carrier*delta_frequencia);
+frequencia_baixa = frequencia_carrier - (frequencia_carrier*delta_frequencia);
+
+%definição das frequencias moduladas
+carrier_alta = sin(2*pi*tempo_sampling*frequencia_alta); %bit alto
+carrier_baixa = sin(2*pi*tempo_sampling*frequencia_baixa); %bit baixo
+
+sinal_modulado = [];
+
+for i=1:nro_bits
+     if(data(i)==1)
+         sinal_modulado = [sinal_modulado carrier_alta];
+     else
+         sinal_modulado = [sinal_modulado carrier_baixa];
+     end
+ end
+
+ruido = 0.1;
+onda_transmitida = awgn(sinal_modulado, ruido); %adiciona ruido no sinal
+\end{minted}
+
 	
 \end{document}
