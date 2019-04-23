@@ -1,4 +1,4 @@
-\documentclass[11pt,a4paper]{report}
+\documentclass[10pt,a4paper]{report}
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath}
 \usepackage{amsfonts}
@@ -171,30 +171,30 @@ Será utilizado, a priori, um filtro passa-baixa a fim de reduzir o ruído de al
 	
 	\end{itemize}
 
-	Em consideração aos items {\bf 1} e {\bf 2}, se optou por utilizar algum controlador da família ARM™, indubtavelmente a família mais utilizada de processadores no mundo, e desta forma, acessível e de bom suporte.
+	Em consideração aos items {\bf 1} e {\bf 2}, se optou por utilizar algum controlador da família ARM™, indubtavelmente a família mais utilizada de processadores no mundo, e desta forma, acessível e de bom suporte. \\
 	
-	O quesito performance nos faz olhar para as famílias de processadores que a ARM™ atualmente oferece, dentre as quais, os processadores Cortex-M3™ \footnote{https://developer.arm.com/ip-products/processors/cortex-m/cortex-m3} parecem entrar nos quesitos. 
+	O quesito performance nos faz olhar para as famílias de processadores que a ARM™ atualmente oferece, dentre as quais, os processadores Cortex-M3™ \footnote{https://developer.arm.com/ip-products/processors/cortex-m/cortex-m3} parecem entrar nos quesitos. \\
 	
-	De acordo com o página da empresa sobre o processador:
+	De acordo com o página da empresa sobre o processador:\\
 	
-	``The Arm Cortex-M3 processor is the industry-leading 32-bit processor for highly deterministic real-time applications."
+	``The Arm Cortex-M3 processor is the industry-leading 32-bit processor for highly deterministic real-time applications."\\
 	
-	Depois de uma curta pesquisa de mercado, a placa STM32F103C8 da ST™ parece preencher bem os quesitos supraescritos, com um processador Cortex-M3™ de 72MHz de clock interno, é um dos microcontroladores mais potentes da categoria fabricados pela ST™, o que preenche bem o requisito {\bf 3}.
+	Depois de uma curta pesquisa de mercado, a placa STM32F103C8 da ST™ parece preencher bem os quesitos supraescritos, com um processador Cortex-M3™ de 72MHz de clock interno, é um dos microcontroladores mais potentes da categoria fabricados pela ST™, o que preenche bem o requisito {\bf 3}.\\
 	
 	Qualquer processador dessa linha da ST™ pode ser programado e debuggado via uma interface chamada ST-Link™, que também foi de fácil obtenção e baixo custo, e basicamente inclui um outro processador que conversa em tempo real com a placa alvo.
 
 	
 	\subsection{Suporte}
-	O suporte oferecido tanto pela ARM™ quanto pela ST™ é extenso. A ST™ produz seu próprio software de pré-configuração e geração de código chamado STM32CubeMX™, que é uma {\it Graphical User Interface} usada para gerar o código inicial, como configuração de clock interno e dos pinos do processador, por exemplo.
+	O suporte oferecido tanto pela ARM™ quanto pela ST™ é extenso. A ST™ produz seu próprio software de pré-configuração e geração de código chamado STM32CubeMX™, que é uma {\it Graphical User Interface} usada para gerar o código inicial, como configuração de clock interno e dos pinos do processador, por exemplo.\\
 	
-	A ARM™ também mantém um compilador, um debugger e utilidades de programação para sua linha de processadores, todas as ferramentas baseadas no GCC, GDB e Gnu Binutils.\footnote{https://developer.arm.com/tools-and-software/open-source-software/developer-tools/gnu-toolchain}
+	A ARM™ também mantém um compilador, um debugger e utilidades de programação para sua linha de processadores, todas as ferramentas baseadas no GCC, GDB e Gnu Binutils.\footnote{https://developer.arm.com/tools-and-software/open-source-software/developer-tools/gnu-toolchain}\\
 	
 	Como software de upload de código e debugging, podemos usar o programa {\it openocd} \footnote{http://openocd.org/}, também de código aberto que acessa a interface SWD ({\it Serial Wire Debug}) do ST-Link™ via terminal, com possibilidade de abrir uma janela de sessão de debugging via GDB.
 	
 	\subsection{Processo de Desenvolvimento}
-	Desde a última versão, o STM32CubeMX™ consegue produzir um Makefile que pode ser compilado pelo programa {\it make} chamando o compilador de C cedido pela ARM.
+	Desde a última versão, o STM32CubeMX™ consegue produzir um Makefile que pode ser compilado pelo programa {\it make} chamando o compilador de C cedido pela ARM.\\
 	
-	A partir disso, o compilador gera arquivos .hex, .elf e .bin, quaisquer podendo ser inseridos na memoria interna do microcontrolador pelo openocd.
+	A partir disso, o compilador gera arquivos .hex, .elf e .bin, quaisquer podendo ser inseridos na memoria interna do microcontrolador pelo openocd.\\
 	
 	
 \chapter{Title}
