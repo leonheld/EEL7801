@@ -6,6 +6,7 @@
 \usepackage{graphicx}
 \usepackage{pgfplots}
 \usepackage{circuitikz}
+\usepackage{hyperref}
 
 \pgfmathdeclarefunction{gauss}{2}{%
 	\pgfmathparse{1/(#2*sqrt(2*pi))*exp(-((x-#1)^2)/(2*#2^2))}%
@@ -25,6 +26,10 @@
 	
 
 	\maketitle
+	%todo: atualizar pro link do github do Robota quando empurrarmos o projeto pra lá
+		\newpage Nota: O projeto todo, incluindo este documento e os demais códigos de simulação e de projeto podem ser encontrados em \url{https://github.com/leonheld/EEL7801}
+	\\
+	
 	\setcounter{chapter}{0}
 	\chapter{Metodologia}
 	\section{Modulação e demodulação de sinais}
