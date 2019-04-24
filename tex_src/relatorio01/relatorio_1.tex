@@ -118,11 +118,11 @@ Será utilizado, a priori, um filtro passa-baixa a fim de reduzir o ruído de al
 
 \begin{center}
 	\begin{circuitikz} \draw
-		(0, 0) node[op amp] (opamp) {}
-		(opamp.-) -- (-3, 0.5)
+		(0, 0) node[op amp, yscale=-1] (opamp) {}
+		(opamp.+) -- (-3, 0.5)
 		to[C, l=$C$] (-3, -4)
 		(-3, 0.5) to[R, *-, l=$R_1$] (-6, 0.5) node[label={$V_{in}$}] {}
-		(opamp.+) to[short,*-] ++(0,-1.5) coordinate (leftR)
+		(opamp.-) to[short,*-] ++(0,-1.5) coordinate (leftR)
 		to[R, l=$R_3$] (leftR -| opamp.out)
 		to[short,-*] (opamp.out)
 		to ++(1,0) node[label={$V_{out}$}] {}
