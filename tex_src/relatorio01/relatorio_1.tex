@@ -1,4 +1,4 @@
-\documentclass[11pt,a4paper]{report}
+\documentclass[10pt,a4paper]{report}
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath}
 \usepackage{amsfonts}
@@ -6,6 +6,41 @@
 \usepackage{graphicx}
 \usepackage{pgfplots}
 \usepackage{circuitikz}
+\usepackage{hyperref}
+\usepackage{tikz}
+\usepackage{pdfpages}
+\usepackage{minted}
+	\definecolor{bg}{rgb}{0.95,0.95,0.95}
+\usetikzlibrary{calc,trees,positioning,arrows,chains,shapes.geometric,%
+	decorations.pathreplacing,decorations.pathmorphing,shapes,%
+	matrix,shapes.symbols}
+
+\tikzset{
+	>=stealth',
+	punktchain/.style={
+		rectangle, 
+		rounded corners, 
+		draw=black, very thick,
+		text width=10em, 
+		minimum height=3em, 
+		text centered, 
+		on chain},
+	line/.style={draw, thick, <-},
+	element/.style={
+		tape,
+		top color=white,
+		bottom color=blue!50!black!60!,
+		minimum width=8em,
+		draw=blue!40!black!90, very thick,
+		text width=10em, 
+		minimum height=3.5em, 
+		text centered, 
+		on chain},
+	every join/.style={->, thick,shorten >=1pt},
+	decoration={brace},
+	tuborg/.style={decorate},
+	tubnode/.style={midway, right=2pt},
+}
 
 \pgfmathdeclarefunction{gauss}{2}{%
 	\pgfmathparse{1/(#2*sqrt(2*pi))*exp(-((x-#1)^2)/(2*#2^2))}%
@@ -22,19 +57,24 @@
 }
 \date{02 de Maio de 2019}
 \begin{document}
+	
+
 	\maketitle
+	%todo: atualizar pro link do github do Robota quando empurrarmos o projeto pra lá
+		\newpage Nota: O projeto todo, incluindo este documento e os demais códigos de simulação e de projeto podem ser encontrados em \url{https://github.com/leonheld/EEL7801}
+	\\
+	
 	\setcounter{chapter}{0}
 	\chapter{Metodologia}
 	\section{Modulação e demodulação de sinais}
 	\subsection{Motivação da escolha do algoritmo}
-	\paragraph{}
-	\paragraph{}
+	
 	Escolheu-se o processo de modulação por Chaveamento de Deslocamento de Frequência (FSK, em inglês). São usadas duas frequências ótimas para se representar 0 e 1, e ambas são obtidas experimentalmente: a partir de testes realizados com o transdutor (microfone), é gerada uma curva normal, em que a resposta desse ao sinal recebido é ótima para uma frequência específica (frequência da onda portadora). São, então, obtidas duas outras frequências equidistantes do centro da curva gaussiana, e a cada uma é associado um valor binário.
 	
 	
 	O processo de modulação, em si, consiste na transformação de um sinal PWM em um analógico (que é controlado por um STM32) que, por sua vez, é emitido por um tweeter. O sinal (sonoro) é recebido por um microfone controlado por outro STM32, que realizará o processo de demodulação do sinal.
 	\subsection{Algoritmo da modulação (FSK)}	
-	\paragraph{}
+
 	Empiricamente são testadas (com o microfone) diferentes frequências emitidas pelo tweeter e recebidas pelo microfone. A de melhor resposta (dada, no gráfico abaixo, por $f$) é associada à onda portadora (carrier). É, então, estabelecido um desvio $\Delta{f}$, e, a partir desse, são determinadas:
 	\begin{center}
 		\begin{align*}
@@ -44,7 +84,7 @@
 	\end{center}
 	de tal forma que à $f_H$ se associa o bit $1$, e à $f_L$, $0$.
 	
-	\paragraph{}
+
 	
 	\begin{center}
 		\begin{tikzpicture}
@@ -113,7 +153,7 @@ Por meio do circuito da (inserir número da imagem aqui) é medida a tensão/pot
 Quanto maior a queda de tensão no microfone, maior a energia por ele consumida em relação ao resto do circuito (divisor de tensão), logo, melhor será sua resposta aos estí­mulos sonoros testados.
 
 	\subsection{Tratamento do sinal analógico}
-\paragraph{}
+
 Será utilizado, a priori, um filtro passa-baixa a fim de reduzir o ruído de alta frequência, além de um amplificador não inversor (que garantirá uma clara análise do sinal).
 
 \begin{center}
@@ -156,32 +196,215 @@ Será utilizado, a priori, um filtro passa-baixa a fim de reduzir o ruído de al
 	\end{equation}
 	
 	Para avaliarmos o ganho, deixamos em $R_3$ um potenciômetro e, assim, avaliamos, a posteriori, qual o melhor ganho para se projetar (aquele cuja análise posterior for facilitada).
+
+
+\section{Escolha de Microcontrolador ($\mu$C)}
+	\subsection{STM32}
+	O microcontrolador foi escolhido na base da seguinte {\it criteria}:
 	
+	\begin{itemize}
+		\item[{\bf 1)}]Baixo Custo: O controlador deve ter um custo mínimo, com alta flexibilidade de prototipação. Deve incluir um programador integrado, ou possuir algum de baixo custo e facilmente acessível.
+		
+		\item[{\bf 2)}] Alto suporte: O controlador deve ter suporte de compiladores, ambientes de programação, comunidade de software aberto e pela própria empresa que o fabrica.
+		
+		\item[{\bf 3)}] Performance: A unidade deve ter uma performance que faz processamento de dados e sinais com relativa rapidez, de forma que a sua capacidade de processamento não dite o algoritmo e execução do programa.
+	
+	\end{itemize}
+
+	Em consideração aos items {\bf 1} e {\bf 2}, se optou por utilizar algum controlador da família ARM™, indubtavelmente a família mais utilizada de processadores no mundo, e desta forma, acessível e de bom suporte. \\
+	
+	O quesito performance nos faz olhar para as famílias de processadores que a ARM™ atualmente oferece, dentre as quais, os processadores Cortex-M3™ \footnote{https://developer.arm.com/ip-products/processors/cortex-m/cortex-m3} parecem entrar nos quesitos. \\
+	
+	De acordo com o página da empresa sobre o processador:\\
+	
+	``The Arm Cortex-M3 processor is the industry-leading 32-bit processor for highly deterministic real-time applications."\\
+	
+	Depois de uma curta pesquisa de mercado, a placa STM32F103C8 da ST™, também conhecida como {\it bluepill}, parece preencher bem os quesitos supraescritos, com um processador Cortex-M3™ de 72MHz de clock interno, é um dos microcontroladores mais potentes da categoria fabricados pela ST™, o que preenche bem o requisito {\bf 3}.\\
+	\begin{center}
+		\includegraphics[width=0.5\textwidth]{bluepill}\\
+		\footnotesize{STM32F103C8.}
+	\end{center}
+
+	
+	Qualquer processador dessa linha da ST™ pode ser programado e debuggado via uma interface chamada ST-Link™, que também foi de fácil obtenção e baixo custo, e basicamente inclui um outro processador que conversa em tempo real com a placa alvo.
+	\begin{center}
+	\includegraphics[width=0.2\textwidth]{stlink}\\
+	\footnotesize{Programador SWD ST-Link.}
+	\end{center}
+	
+	\subsection{Suporte}
+	O suporte oferecido tanto pela ARM™ quanto pela ST™ é extenso. A ST™ produz seu próprio software de pré-configuração e geração de código chamado STM32CubeMX™, que é uma {\it Graphical User Interface} usada para gerar o código inicial, como configuração de clock interno e dos pinos do processador, por exemplo.\\
+	
+	A ARM™ também mantém um compilador, um debugger e utilidades de programação para sua linha de processadores, todas as ferramentas baseadas no GCC, GDB e Gnu Binutils.\footnote{https://developer.arm.com/tools-and-software/open-source-software/developer-tools/gnu-toolchain}\\
+	
+	Como software de upload de código e debugging, podemos usar o programa {\it openocd} \footnote{http://openocd.org/}, também de código aberto que acessa a interface SWD ({\it Serial Wire Debug}) do ST-Link™ via terminal, com possibilidade de abrir uma janela de sessão de debugging via GDB.
+	
+	\subsection{Processo de Desenvolvimento}
+	Desde a última versão, o STM32CubeMX™ consegue produzir um Makefile que pode ser compilado pelo programa {\it make} chamando o compilador de C cedido pela ARM.\\
+	
+	A partir disso, o compilador gera arquivos .hex, .elf e .bin, quaisquer podendo ser inseridos na memoria interna do microcontrolador pelo openocd.\\
+	
+	Para a programação, existe uma HAL - {\it Hardware Abstration Layer} -, também fornecida pela ST™, que é incluída nos sources do projeto no momento da inicialização do código pelo STM32CubeMX™ e possuí funções específicas de baixo nível, mas tem as mesmas chamadas em quaisquer processador alvo que queira executar o código, aumentando a portabilidade. Também, a HAL é construída de forma a aumentar o nível de abstração, diminuindo significativamente a complexidade do código, permitindo desenvolvimento rápido e colaborativo, sem necessariamente conhecer todos os artifícios de baixo nível de cada processador.
+	\begin{center}
+		\begin{tikzpicture}
+	[node distance=.8cm,
+	start chain=going below,]
+	
+	\node[punktchain, join, ] (STM) {STM32CubeMX};
+	\node (gcc) [punktchain ] {GCC};
+	\begin{scope}[start branch=top,
+	every join/.style={->, thick, shorten <=1pt}, ]
+	\node[punktchain, on chain=going left, join=by {<-}](HAL) {HAL};
+	\end{scope}
+	\begin{scope}[start branch=bottom,]
+	\node (makefile) [punktchain, on chain=going right] {Makefile};
+	\end{scope}
+	\node[punktchain, join,] {$.elf\ .bin\ .hex$};
+	\node[punktchain, join,] {OpenOCD};
+	\node[punktchain, join]  {ST-Link};
+	
+	\draw[<-] (gcc.east) -- (makefile.west);
+	\draw[<-] (makefile.north) -- (STM.east);
+	\draw[<-] (HAL.north) -- (STM.west);
+	\end{tikzpicture}\vspace{0.1cm}
+	\footnotesize{Flowchart de programação e desenvolvimento do firmware.}
+	\end{center}
 
 \chapter{Title}
-	\section{Lorem}
-	\subsection{title}
+	\section{Title}
+	\subsection{graphics}
+	\includepdf[page={1}]{sinais}
+	\includepdf[page={1}]{sinais_comp}
+	\subsection{demod}
+	
+	\begin{minted}[frame=lines,
+	framesep=2mm,
+	baselinestretch=1.2,
+	bgcolor=bg,
+	fontsize=\footnotesize,
+	linenos
+	]{matlab}
+function [NORMALIZED_BIT_ERROR_RATE] = fsk_demod(sinal_modulado, ruido)
 
-		\section{Lorem}
-	\subsection{title}
+    onda_transmitida = awgn(sinal_modulado, ruido); %adiciona ruido no sinal
+
+    data = [1 0 1 0 1 1 1 0 0 1]; %apenas necessario pra computar a taxa de erro
+    nro_bits = length(data);
+
+    holdup_time = 10;
+
+    frequencia_carrier = 1000; 
+    periodo_carrier = 1/frequencia_carrier;
+
+    f_sampling = frequencia_carrier * 100;
+    periodo_sampling = 1/f_sampling;
+
+    holdup_time = 10;
+    
+    tempo_sampling = 0:periodo_sampling:(periodo_carrier*holdup_time);
+
+    negative=0;
+    positive=0;
+
+    sampleValue = nro_bits;
+    dif_sinal=0;
+    nro_zeros=0;
+    amostra_de_zeros=[];
+    k=1;
+    for i=1:10
+        for j=1:length(tempo_sampling)
+            if(dif_sinal>sampleValue)
+                if(onda_transmitida(1,k)>0)
+                    positive=1;    
+                end
+                if(onda_transmitida(1,k)<0)
+                    negative=1;
+                end
+            end
+            k++;
+            dif_sinal=dif_sinal+1;
+            if(positive==1 && negative==1)
+                nro_zeros++;
+                positive=0;
+                dif_sinal=0;
+                negative=0;
+            end
+        end
+        amostra_de_zeros=[amostra_de_zeros nro_zeros];
+        nro_zeros=0;     
+    end
+
+    %normalize os vetores dividindo-os pela MALVADA
+    amostra_de_zeros=amostra_de_zeros/mean(amostra_de_zeros);
+
+    filtData=[];
+    for i=1:length(amostra_de_zeros)
+     if(amostra_de_zeros(i)>=1)
+         filtData=[filtData 1];
+     else
+         filtData=[filtData 0];
+     end
+    end
+
+    [BIT_ERROR_RATE NORMALIZED_BIT_ERROR_RATE]=biterr(data,filtData);
+end
 	
-		\section{Lorem}
-	\subsection{title}
+	\end{minted}
 	
-		\section{Lorem}
-	\subsection{title}
-	
-		\setcounter{chapter}{1}
-	\chapter{}
-	
-		\section{Lorem}
-	\subsection{title}
-	
-		\section{Lorem}
-	\subsection{title}
-	
-		\section{Lorem}
-	\subsection{title}
-	
+\subsection{mod}
+	\begin{minted}[frame=lines,
+framesep=2mm,
+baselinestretch=1.2,
+bgcolor=bg,
+fontsize=\footnotesize,
+linenos
+]{matlab}
+
+data = [1 0 1 0 1 1 1 0 0 1]; %defina os bits a serem modulados na onda
+nro_bits = length(data);
+
+%DEFINIR SINAL CARRIER
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%frequência e período da onda carrier
+frequencia_carrier = 1000; 
+periodo_carrier = 1/frequencia_carrier;
+
+%frequência e período que definem a sampling rate(baseado na f e t da carrier)
+f_sampling = frequencia_carrier * 100;
+periodo_sampling = 1/f_sampling;
+
+
+holdup_time = 10;
+proportional_holdup_time = holdup_time*nro_bits;
+
+t = 0:periodo_sampling:(proportional_holdup_time*periodo_carrier);
+
+
+onda_carrier = sin(2*pi*t*frequencia_carrier); 
+
+%PROCESSO DE MODULAÇÃO
+
+delta_frequencia = 0.5; % o quão violenta vai ser o `amortecimento` nos carregamentos de frequencia
+frequencia_alta = frequencia_carrier + (frequencia_carrier*delta_frequencia);
+frequencia_baixa = frequencia_carrier - (frequencia_carrier*delta_frequencia);
+
+%definição das frequencias moduladas
+carrier_alta = sin(2*pi*tempo_sampling*frequencia_alta); %bit alto
+carrier_baixa = sin(2*pi*tempo_sampling*frequencia_baixa); %bit baixo
+
+sinal_modulado = [];
+
+for i=1:nro_bits
+     if(data(i)==1)
+         sinal_modulado = [sinal_modulado carrier_alta];
+     else
+         sinal_modulado = [sinal_modulado carrier_baixa];
+     end
+ end
+
+ruido = 0.1;
+onda_transmitida = awgn(sinal_modulado, ruido); %adiciona ruido no sinal
+\end{minted}
+
 	
 \end{document}
