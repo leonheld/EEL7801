@@ -132,7 +132,7 @@ Há, também, uma segunda possibilidade: de o microfone não reagir significativ
 
 \subsection{Obtenção das frequências ótimas}
 \paragraph{}
-Por meio do circuito da (inserir número da imagem aqui) é medida a tensão/potência dissipada nos terminais do microfone. A curva (próxima à normal descrita acima) é gerada a partir da potência consumida/queda de tensão que é medida entre os terminais do microfone.
+Por meio do circuito abaixo é medida a tensão/potência dissipada nos terminais do microfone. A curva (próxima à normal descrita acima) é gerada a partir da potência consumida/queda de tensão que é medida entre os terminais do microfone.
 
 
 \begin{center}
@@ -198,20 +198,47 @@ Será utilizado, a priori, um filtro passa-baixa a fim de reduzir o ruído de al
 	Para avaliarmos o ganho, deixamos em $R_3$ um potenciômetro e, assim, avaliamos, a posteriori, qual o melhor ganho para se projetar (aquele cuja análise posterior for facilitada).
 
 
+		\subsection{Circuito amplificador}
+	\paragraph{}
+	O núcleo do amplificador será o chip {\it LM386}, cuja pinagem pode ser vista abaixo:
+		
+	\begin{center}
+		\includegraphics[width=0.5\textwidth]{LM386_pinout_diagram.png}\\
+		\footnotesize{Diagrama com pinagem do LM386}
+	\end{center}
+	
+	O circuito abaixo será utilizado a fim de se amplificar o sinal emitido pelo modulador, para que esse seja reproduzido pelo transdutor utilizado.\footnote{http://www.circuitbasics.com/build-a-great-sounding-audio-amplifier-with-bass-boost-from-the-lm386/}\\
+	
+	\begin{center}
+		\includegraphics[width=\linewidth]{amplifier_circuit.png}\\
+		\footnotesize{Circuito amplificador (conectado entre saída do emissor e entrada do speaker/transdutor)}
+	\end{center}}
+
+	\begin{itemize}
+		\item[{\bf 1.}]$C_1$ é responsável por filtrar eventuais interferências captadas pelos fios.
+		\item[{\bf 2.}]$C_2$ e $C_3$ são responsáveis por desacoplar a fonte do amplificador. o de $100\mu{F}$ filtrará ruído de alta frequência, enquanto o de $0.1\mu{F}$, de baixa.
+		\item[{\bf 3.}]$C_4$ desacopla os pinos de alimentação do chip.
+		\item[{\bf 4.}]$C_5$, juntamente com o potenciômetro, tem a função de regular o ganho do {\it LM386} entre 20 e 200 vezes.\footnote{http://www.ti.com/lit/ds/symlink/lm386.pdf}
+		\item[{\bf 5.}]$C_6$ rejeita correntes contínuas.
+		\item[{\bf 6.}]$C_7$ e $R_2$ atuam como um passa-alta, a fim de evitar ruídos no som emitido pelo speaker.
+		\item[{\bf 7.}]$C_8$ e $R_1$ desacoplam a entrada de áudio (bypass pin).
+		\item[{\bf 8.}]Os potenciômetros têm finalidade de teste (possivelmente serão substituídos por resistores, uma vez devidamente testadas resistências condizentes com o circuito).
+	\end{itemize}
+
 \section{Escolha de Microcontrolador ($\mu$C)}
 	\subsection{STM32}
 	O microcontrolador foi escolhido na base da seguinte {\it criteria}:
 	
 	\begin{itemize}
-		\item[{\bf 1)}]Baixo Custo: O controlador deve ter um custo mínimo, com alta flexibilidade de prototipação. Deve incluir um programador integrado, ou possuir algum de baixo custo e facilmente acessível.
+		\item[{\bf 1.}]Baixo Custo: O controlador deve ter um custo mínimo, com alta flexibilidade de prototipação. Deve incluir um programador integrado, ou possuir algum de baixo custo e facilmente acessível.
 		
-		\item[{\bf 2)}] Alto suporte: O controlador deve ter suporte de compiladores, ambientes de programação, comunidade de software aberto e pela própria empresa que o fabrica.
+		\item[{\bf 2.}] Alto suporte: O controlador deve ter suporte de compiladores, ambientes de programação, comunidade de software aberto e pela própria empresa que o fabrica.
 		
-		\item[{\bf 3)}] Performance: A unidade deve ter uma performance que faz processamento de dados e sinais com relativa rapidez, de forma que a sua capacidade de processamento não dite o algoritmo e execução do programa.
+		\item[{\bf 3.}] Performance: A unidade deve ter uma performance que faz processamento de dados e sinais com relativa rapidez, de forma que a sua capacidade de processamento não dite o algoritmo e execução do programa.
 	
 	\end{itemize}
 
-	Em consideração aos items {\bf 1} e {\bf 2}, se optou por utilizar algum controlador da família ARM™, indubtavelmente a família mais utilizada de processadores no mundo, e desta forma, acessível e de bom suporte. \\
+	Em consideração aos items {\bf 1} e {\bf 2}, optou-se por utilizar algum controlador da família ARM™, indubitavelmente a família de processadores mais utilizada no mundo, e desta forma, acessível e de bom suporte. \\
 	
 	O quesito performance nos faz olhar para as famílias de processadores que a ARM™ atualmente oferece, dentre as quais, os processadores Cortex-M3™ \footnote{https://developer.arm.com/ip-products/processors/cortex-m/cortex-m3} parecem entrar nos quesitos. \\
 	
@@ -242,7 +269,7 @@ Será utilizado, a priori, um filtro passa-baixa a fim de reduzir o ruído de al
 	\subsection{Processo de Desenvolvimento}
 	Desde a última versão, o STM32CubeMX™ consegue produzir um Makefile que pode ser compilado pelo programa {\it make} chamando o compilador de C cedido pela ARM.\\
 	
-	A partir disso, o compilador gera arquivos .hex, .elf e .bin, quaisquer podendo ser inseridos na memoria interna do microcontrolador pelo openocd.\\
+	A partir disso, o compilador gera arquivos .hex, .elf e .bin, podendo esses ser inseridos na memória interna do microcontrolador pelo openocd.\\
 	
 	Para a programação, existe uma HAL - {\it Hardware Abstration Layer} -, também fornecida pela ST™, que é incluída nos sources do projeto no momento da inicialização do código pelo STM32CubeMX™ e possuí funções específicas de baixo nível, mas tem as mesmas chamadas em quaisquer processador alvo que queira executar o código, aumentando a portabilidade. Também, a HAL é construída de forma a aumentar o nível de abstração, diminuindo significativamente a complexidade do código, permitindo desenvolvimento rápido e colaborativo, sem necessariamente conhecer todos os artifícios de baixo nível de cada processador.
 	\begin{center}
