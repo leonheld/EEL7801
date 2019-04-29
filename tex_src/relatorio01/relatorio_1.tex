@@ -1,4 +1,4 @@
-\documentclass[10pt,a4paper]{report}
+\documentclass[11pt,a4paper]{report}
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath}
 \usepackage{amsfonts}
@@ -10,6 +10,7 @@
 \usepackage{tikz}
 \usepackage{pdfpages}
 \usepackage{minted}
+\usepackage{mathtools}
 	\definecolor{bg}{rgb}{0.95,0.95,0.95}
 \usetikzlibrary{calc,trees,positioning,arrows,chains,shapes.geometric,%
 	decorations.pathreplacing,decorations.pathmorphing,shapes,%
@@ -75,6 +76,8 @@
 	GCC is Copyright (C) 1986, 1987, 1988, 1989, 1990, 1991, 1992, 1993, 1994,
 	1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007,
 	2008 Free Software Foundation, Inc.
+	
+	Octave is Copyright © 1996-2016 John W. Eaton. 
 	
 	\setcounter{chapter}{0}
 	\chapter{Metodologia}
@@ -309,10 +312,50 @@ Será utilizado, a priori, um filtro passa-baixa a fim de reduzir o ruído de al
 	\footnotesize{Flowchart de programação e desenvolvimento do firmware.}
 	\end{center}
 
-\chapter{Title}
-	\section{Title}
-	\subsection{graphics}
+\chapter{Simulação e Algoritmo}
+	\section{Simulação usando Octave}
+	
+	Os algoritmos foram programandos usando Octave, uma linguagem de manipulação de vetores que possuí pacotes específicos para comunicação e sinais digitais. Também possuí uma função \texttt{agwn}, ou {\it Additive Gaussian White Noise}, que introduz barulho no sistema e no sinal.\\
+	
+	O algoritmo base de simulação foi pego do site da MathWorks, criadora do MATLAB, linguagem compatível com Octave.  Dessa base, alteramos o código de forma a cortar excessos e tentando eliminar elementos de aleatoriedade, vistos que são mais difíceis de se obter na plataforma de hardware que pretendemos usar. Também modularizamos o código de forma que podemos fazer $n$ simulações com padrões diferentes de onda, {\it sampling rates}, diferentes frequências e tudo entre o meio.\\
+	
+	O algoritmo é extremamente bem conhecido e documentado. O algoritmo de modulação compreende em gerar uma onda sinusóide que é modulada em função de um vetor binário. De forma resumida:
+	\begin{equation}
+	\mathfrak{F}(V)\ onde\ V(i) = 1 \lor 0\ para\ i \in \mathbb{N}
+	\end{equation}
+	e
+
+	\[
+	\begin{dcases}
+	\mathfrak{F} \coloneqq \delta_{+} & V(i) = 0 \\
+	\mathfrak{F} \coloneqq \delta_{-} & V(i) = 1 \\
+	\end{dcases}
+	\]
+
+
+	Defina $\mathcal{L}$ como um vetor que receberá um sinal senoidal, dependendo de um fator $\delta_{+/-}$ da função $\mathfrak{F}$
+
+	\begin{equation}
+	\mathcal{L} = \mathfrak{F}(V) = \sin{2 \cdot \pi \cdot t \cdot f_{\delta_{+/-}}}
+	\end{equation}
+	
+	Vale reiterar que essa $f$ é baseada numa frequência da onda {\it carrier}. Como estamos destacando frequências diferentes diferentes para cada sinal, a "carrier" é só uma alegoria para determinar frequência e período de uma onda fundamental que nunca será gerada. A alternativa seria usar uma onda continua onde o bit $1$ ou $0$ são gerados a partir de apenas um {\it shift} de frequência, e não dois como estamos fazendo aqui.\\
+	
+	Dessa forma, se constrói uma onda que varia no tempo e é construída com duas frequências de acordo com os bits do vetor que se deseja modular.\\
+	
+	Em termos de implementação, é possível direcionar os valores amostrados dessa senóide para um Conversor Digital Analógico, e obter amplificação das mesmas.\\
+	
+	O resultado da simulação pode ser visto da próxima página. O primeiro gráfico representa uma onda pura, não modulada, a "carrier", que como mencionamos, nunca será gerada no contexto do nosso algoritmo.\\
+	
+	O segundo gráfico está associado com um pulso quadrado de mensagens que representa o vetor 
+	
+	\[V = [1 0 1 0 1 1 1 0 0 1]\]
+	
+	O terceiro gráfico é a onda já modulada, passada pelo algoritmo citado acima. Perceba os cortes horizontais de frequência gerados pelo vetor do pulso quadrado.\\
+	
+	A quarta onda é a terceira com {\it white noise} adicionado. Podemos usar o white noise como barulho e interferência criado pelo ambiente durante a execução do programa. A razão $\frac{sinal}{noise}$ naquele caso está extremamente alta, da ordem de 100. É perceptível a diferença na onda.
 	\includepdf[page={1}]{sinais}
+	
 	\includepdf[page={1}]{sinais_comp}
 	\subsection{demod}
 	
