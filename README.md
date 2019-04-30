@@ -27,4 +27,7 @@ $ telnet localhost 4444
 ```
 
 # Hardware
-* Todo
+* Blue Pill STM32F103C8T6
+* Amplificador baseado em LM386
+* Microfone todo
+* Speaker todo
