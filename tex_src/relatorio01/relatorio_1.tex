@@ -212,6 +212,32 @@ Será utilizado, a priori, um filtro passa-baixa a fim de reduzir o ruído de al
 	
 	Para avaliarmos o ganho, deixamos em $R_3$ um potenciômetro e, assim, avaliamos, a posteriori, qual o melhor ganho para se projetar (aquele cuja análise posterior for facilitada).
 
+\subsection{Circuito amplificador}
+	\paragraph{}
+	O núcleo do amplificador será o chip {\it LM386}, cuja pinagem pode ser vista abaixo:
+		
+	\begin{center}
+		\includegraphics[width=0.5\textwidth]{LM386_pinout_diagram.png}\\
+		\footnotesize{Diagrama com pinagem do LM386}
+	\end{center}
+	
+	O circuito abaixo será utilizado a fim de se amplificar o sinal emitido pelo modulador, para que esse seja reproduzido pelo transdutor utilizado.\footnote{http://www.circuitbasics.com/build-a-great-sounding-audio-amplifier-with-bass-boost-from-the-lm386/}\\
+	
+	\begin{center}
+		\includegraphics[width=\linewidth]{amplifier_circuit.png}\\
+		\footnotesize{Circuito amplificador (conectado entre saída do emissor e entrada do speaker/transdutor)}
+	\end{center}
+
+	\begin{itemize}
+		\item[{\bf 1.}]$C_1$ é responsável por filtrar eventuais interferências captadas pelos fios.
+		\item[{\bf 2.}]$C_2$ e $C_3$ são responsáveis por desacoplar a fonte do amplificador. o de $100\mu{F}$ filtrará ruído de alta frequência, enquanto o de $0.1\mu{F}$, de baixa.
+		\item[{\bf 3.}]$C_4$ desacopla os pinos de alimentação do chip.
+		\item[{\bf 4.}]$C_5$, juntamente com o potenciômetro, tem a função de regular o ganho do {\it LM386} entre 20 e 200 vezes.\footnote{http://www.ti.com/lit/ds/symlink/lm386.pdf}
+		\item[{\bf 5.}]$C_6$ rejeita correntes contínuas.
+		\item[{\bf 6.}]$C_7$ e $R_2$ atuam como um passa-alta, a fim de evitar ruídos no som emitido pelo speaker.
+		\item[{\bf 7.}]$C_8$ e $R_1$ desacoplam a entrada de áudio (bypass pin).
+		\item[{\bf 8.}]Os potenciômetros têm finalidade de teste (possivelmente serão substituídos por resistores, uma vez devidamente testadas resistências condizentes com o circuito).
+	\end{itemize}
 
 \section{Escolha de Microcontrolador ($\mu$C)}
 	\subsection{STM32}
