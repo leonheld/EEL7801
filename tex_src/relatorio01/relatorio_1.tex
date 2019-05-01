@@ -360,15 +360,24 @@ Será utilizado, a priori, um filtro passa-baixa a fim de reduzir o ruído de al
 		
 		A partir do número de vezes em que o sinal passa pela origem, é criado um vetor que contem essa quantidade. Esse vetor (em nosso caso, de 10 componentes) é normalizado conforme a média de zeros contida em cada uma das 10 posições (é o processo de reconstrução da onda carrier). Isso é feito a fim de se comparar, após cálculo, com o valor 1, ou seja: se o "número de zeros" normalizados forem maiores do que ou iguais a 1 na posição 0 do vetor, então a posição 0 do vetor assume bit 1, já que houve mais oscilações que a média nesse intervalo de tempo (frequência mais alta). Caso o valor normalizado seja menor que 1, então a componente correspondente no vetor assume valor binário 0.\\
 		
-		O primeiro gráfico da próxima página retrata o vetor original (aquele que fora emitido).\\
+		O primeiro plot retrata o vetor original (aquele que fora emitido).\\
 		
 		O segundo, o vetor que foi recebido e demodulado.\\
 		
-		O terceiro, a comparação final entre o sinal emitido e o sinal percebido. Os erros ocorrem em função, principalmente, do ruído (de alta frequência), que altera a frequência da onda carrier demodulada.\\
+		O terceiro, a comparação final entre o sinal emitido e o sinal percebido. Os erros ocorrem em função, principalmente, do ruído (de alta frequência), que altera a frequência da onda carrier demodulada.
 		
-		Perceptivelmente, de 10 bits, 5 tiveram erros de transmissão. Isso se dá pelo fato do {\it noise} introduzido ter sido máximo, garantindo que mesmo que o sinal esteja destruído por interferências, pelo menos 50\% dos bits serão transmitidos com sucesso.
+\begin{center}
+	\includegraphics[clip, trim=0.0cm 0cm 0.0cm 0.0cm, 								width=1.00\textwidth]{sinais_comp}
+\end{center}
 
-	\includepdf[page={1}]{sinais_comp}
+	Perceptivelmente, de 10 bits, 5 tiveram erros de transmissão. Isso se dá pelo fato do {\it noise} introduzido ter sido máximo, garantindo que mesmo que o sinal esteja destruído por interferências, pelo menos 50\% dos bits serão transmitidos com sucesso.\\
+		
+	É útil, então, saber como o erro de transmissão se comporta em relação à distorção e interferência no sinal. Esse plot apresenta justamente isso, com 500 iterações do mesmo vetor binário sendo modulado e demodulado, mas com a razão de interferência/sinal variando. 
+	\begin{center}
+
+		\includegraphics[clip, trim=0.0cm 0cm 0.0cm 0.0cm, 								width=1.00\textwidth]{errorplot}
+	\end{center}
+	O Valor Esperado de Erros (em $\%$) decresce conforme a razão de interferência cai (noise aumenta com o sinal constante).
 	\subsection{demod}
 	
 	\begin{minted}[frame=lines,
