@@ -84,7 +84,7 @@
 	\section{Modulação e demodulação de sinais}
 	\subsection{Motivação da escolha do algoritmo}
 	
-	Escolheu-se o processo de modulação por Chaveamento de Deslocamento de Frequência (FSK, em inglês). São usadas duas frequências ótimas para se representar 0 e 1, e ambas são obtidas experimentalmente: a partir de testes realizados com o transdutor (microfone), é gerada uma curva normal, em que a resposta desse ao sinal recebido é ótima para uma frequência específica (frequência da onda portadora). São, então, obtidas duas outras frequências equidistantes do centro da curva gaussiana, e a cada uma é associado um valor binário.
+	Escolheu-se o processo de modulação por Chaveamento de Deslocamento de Frequência (FSK, em inglês). São usadas duas frequências ótimas para se representar 0 e 1, e ambas são obtidas experimentalmente: a partir de testes realizados com o transdutor (microfone), é gerada uma curva normal, em que a resposta desse ao sinal recebido é ótima para uma frequência específica (frequência da onda portadora). São, então, obtidas duas outras frequências equidistantes do centro da curva gaussiana, e a cada uma é associado um valor binário.\\
 	
 	
 	O processo de modulação, em si, consiste na transformação de um sinal PWM em um analógico (que é controlado por um STM32) que, por sua vez, é emitido por um tweeter. O sinal (sonoro) é recebido por um microfone controlado por outro STM32, que realizará o processo de demodulação do sinal.
@@ -199,14 +199,14 @@ Quanto maior a queda de tensão no microfone, maior a energia por ele consumida 
 	Depois de uma curta pesquisa de mercado, a placa STM32F103C8 da ST, também conhecida como {\it bluepill}, parece atender bem aos quesitos supraescritos, com um processador Cortex-M3 de 72MHz de clock interno, é um dos microcontroladores mais potentes da categoria fabricados pela ST, o que satisfaz o tópico {\bf 3}.\\
 	\begin{center}
 		\includegraphics[width=0.5\textwidth]{bluepill}\\
-		\footnotesize{figura 1.7: STM32F103C8.}
+		\footnotesize{figura 1.4: STM32F103C8.}
 	\end{center}
 
 	
 	Qualquer processador dessa linha da ST pode ser programado e debuggado via uma interface chamada ST-Link, que também foi de fácil obtenção e baixo custo, e basicamente é composta por um outro processador que conversa em tempo real com a placa alvo.
 	\begin{center}
 	\includegraphics[width=0.2\textwidth]{stlink}\\
-	\footnotesize{figura 1.8: Programador SWD ST-Link.}
+	\footnotesize{figura 1.5: Programador SWD ST-Link.}
 	\end{center}
 	
 	\subsection{Suporte}
@@ -244,7 +244,7 @@ Quanto maior a queda de tensão no microfone, maior a energia por ele consumida 
 	\draw[<-] (makefile.north) -- (STM.east);
 	\draw[<-] (HAL.north) -- (STM.west);
 	\end{tikzpicture}\vspace{0.1cm}
-	\footnotesize{figura 1.9: Flowchart de programação e desenvolvimento do firmware.}
+	\footnotesize{figura 1.6: Flowchart de programação e desenvolvimento do firmware.}
 	\end{center}
 
 \chapter{Simulação e Algoritmo}
@@ -354,7 +354,7 @@ Será utilizado, a priori, um filtro passa-baixa a fim de reduzir o ruído de al
 		(-2,-4) to (-2,-5) node[ground] {}
 		;
 	\end{circuitikz}
-	{\footnotesize figura 1.4: Filtro Amplificador}
+	{\footnotesize figura 3.1: Filtro Amplificador}
 \end{center}
 
 
@@ -386,14 +386,14 @@ O núcleo do amplificador será o chip {\it LM386}, cuja pinagem pode ser vista 
 
 \begin{center}
 	\includegraphics[width=0.5\textwidth]{LM386_pinout_diagram.png}\\
-	\footnotesize{figura 1.5: Diagrama com pinagem do LM386}
+	\footnotesize{figura 3.2: Diagrama com pinagem do LM386}
 \end{center}
 
 O circuito abaixo será utilizado a fim de se amplificar o sinal emitido pelo modulador, para que esse seja reproduzido pelo transdutor utilizado.\footnote{http://www.circuitbasics.com/build-a-great-sounding-audio-amplifier-with-bass-boost-from-the-lm386/}\\
 
 \begin{center}
 	\includegraphics[width=\linewidth]{amplifier_circuit.png}\\
-	\footnotesize{figura 1.6: Circuito amplificador (conectado entre saída do emissor e entrada do speaker/transdutor)}
+	\footnotesize{figura 3.3: Circuito amplificador (conectado entre saída do emissor e entrada do speaker/transdutor)}
 \end{center}
 
 \begin{itemize}
