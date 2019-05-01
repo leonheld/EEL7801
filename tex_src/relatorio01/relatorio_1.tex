@@ -84,7 +84,7 @@
 	\section{Modulação e demodulação de sinais}
 	\subsection{Motivação da escolha do algoritmo}
 	
-	Escolheu-se o processo de modulação por Chaveamento de Deslocamento de Frequência (FSK, em inglês). São usadas duas frequências ótimas para se representar 0 e 1, e ambas são obtidas experimentalmente: a partir de testes realizados com o transdutor (microfone), é gerada uma curva normal, em que a resposta desse ao sinal recebido é ótima para uma frequência específica (frequência da onda portadora). São, então, obtidas duas outras frequências equidistantes do centro da curva gaussiana, e a cada uma é associado um valor binário.
+	Escolheu-se o processo de modulação por Chaveamento de Deslocamento de Frequência (FSK, em inglês). São usadas duas frequências ótimas para se representar 0 e 1, e ambas são obtidas experimentalmente: a partir de testes realizados com o transdutor (microfone), é gerada uma curva normal, em que a resposta desse ao sinal recebido é ótima para uma frequência específica (frequência da onda portadora). São, então, obtidas duas outras frequências equidistantes do centro da curva gaussiana, e a cada uma é associado um valor binário.\\
 	
 	
 	O processo de modulação, em si, consiste na transformação de um sinal PWM em um analógico (que é controlado por um STM32) que, por sua vez, é emitido por um tweeter. O sinal (sonoro) é recebido por um microfone controlado por outro STM32, que realizará o processo de demodulação do sinal.
@@ -121,7 +121,7 @@
 		\end{tikzpicture}
 	\end{center}
 \begin{center}
-	{\footnotesize figura 1.1: todo}
+	{\footnotesize figura 1.1: Distribuição de frequências próxima a uma normal}
 \end{center}
 
 Há, também, uma segunda possibilidade: de o microfone não reagir significativamente a diferentes frequências, mas de ainda assim conseguir diferenciá-las. Isto é: o microfone identifica quando duas frequências recebidas são diferentes, mas sua curva de queda de tensão se aproxima de uma constante, como no exemplo a seguir:
@@ -144,7 +144,7 @@ Há, também, uma segunda possibilidade: de o microfone não reagir significativ
 	\end{tikzpicture}
 \end{center}
 \begin{center}
-	{\footnotesize figura 1.2: todo}
+	{\footnotesize figura 1.2: Distribuição linear de frequências}
 \end{center}
 
 
@@ -169,83 +169,11 @@ Por meio do circuito da (inserir número da imagem aqui) é medida a tensão/pot
 	\end{circuitikz}
 \end{center}
 \begin{center}
-	{\footnotesize figura 1.3: todo}
+	{\footnotesize figura 1.3: Circuito para obtenção das frequências ótimas}
 \end{center}
 
 Quanto maior a queda de tensão no microfone, maior a energia por ele consumida em relação ao resto do circuito (divisor de tensão), logo, melhor será sua resposta aos estí­mulos sonoros testados.
 
-	\subsection{Tratamento do sinal analógico}
-
-Será utilizado, a priori, um filtro passa-baixa a fim de reduzir o ruído de alta frequência, além de um amplificador não inversor (que garantirá uma clara análise do sinal).
-
-\begin{center}
-	\begin{circuitikz} \draw
-		(0, 0) node[op amp] (opamp) {}
-		(opamp.-) -- (-3, 0.5)
-		to[C, l=$C$] (-3, -4)
-		(-3, 0.5) to[R, *-, l=$R_1$] (-6, 0.5) node[label={$V_{in}$}] {}
-		(opamp.+) to[short,*-] ++(0,-1.5) coordinate (leftR)
-		to[R, l=$R_3$] (leftR -| opamp.out)
-		to[short,-*] (opamp.out)
-		to ++(1,0) node[label={$V_{out}$}] {}
-		(-1, -2) to[R, *-, l=$R_2$] (-1,-4)
-		(-3, -4) -- (-1, -4)
-		(-2,-4) to (-2,-5) node[ground] {}
-		;
-	\end{circuitikz}
-{\footnotesize figura 1.4: Filtro Amplificador}
-\end{center}
-
-
-	A frequência de corte do circuito acima é dada por \newline
-	\begin{equation}
-	f_c = \frac{1}{2\cdot\pi\cdot{R_1}\cdot{C}}
-	\end{equation}
-	
-	
-	E o ganho por \newline
-	\begin{equation}
-	\frac{V_{out}}{V_{in}} = G = 1 + \frac{R_3}{R_2}
-	\end{equation}
-	
-	
-	Espera-se trabalhar com frequências na faixa audível ($20 Hz$ a $20 kHz$). Portanto, pode-se colocar uma frequência de corte razoável de 22 kHz a priori, já que, dessa forma, o ruído de alta frequência filtrado não interferirá nos sinais desejados.
-	
-	
-	Para tal, usamos um capacitor com capacitância $C = 0.1\mu{F}$, o que nos resulta:
-	
-	\begin{equation}
-	R_1 = \frac{1}{2\cdot{\pi}\cdot{0.1}\cdot{10^{-6}}\cdot{22}\cdot{10^3}} \approx 72\Omega 
-	\end{equation}
-	
-	Para avaliarmos o ganho, deixamos em $R_3$ um potenciômetro e, assim, avaliamos, a posteriori, qual o melhor ganho para se projetar (aquele cuja análise posterior for facilitada).
-
-\subsection{Circuito amplificador}
-	\paragraph{}
-	O núcleo do amplificador será o chip {\it LM386}, cuja pinagem pode ser vista abaixo:
-		
-	\begin{center}
-		\includegraphics[width=0.5\textwidth]{LM386_pinout_diagram.png}\\
-		\footnotesize{figura 1.5: Diagrama com pinagem do LM386}
-	\end{center}
-	
-	O circuito abaixo será utilizado a fim de se amplificar o sinal emitido pelo modulador, para que esse seja reproduzido pelo transdutor utilizado.\footnote{http://www.circuitbasics.com/build-a-great-sounding-audio-amplifier-with-bass-boost-from-the-lm386/}\\
-	
-	\begin{center}
-		\includegraphics[width=\linewidth]{amplifier_circuit.png}\\
-		\footnotesize{figura 1.6: Circuito amplificador (conectado entre saída do emissor e entrada do speaker/transdutor)}
-	\end{center}
-
-	\begin{itemize}
-		\item[{\bf 1.}]$C_1$ é responsável por filtrar eventuais interferências captadas pelos fios.
-		\item[{\bf 2.}]$C_2$ e $C_3$ são responsáveis por desacoplar a fonte do amplificador. o de $100\mu{F}$ filtrará ruído de alta frequência, enquanto o de $0.1\mu{F}$, de baixa.
-		\item[{\bf 3.}]$C_4$ desacopla os pinos de alimentação do chip.
-		\item[{\bf 4.}]$C_5$, juntamente com o potenciômetro, tem a função de regular o ganho do {\it LM386} entre 20 e 200 vezes.\footnote{http://www.ti.com/lit/ds/symlink/lm386.pdf}
-		\item[{\bf 5.}]$C_6$ rejeita correntes contínuas.
-		\item[{\bf 6.}]$C_7$ e $R_2$ atuam como um passa-alta, a fim de evitar ruídos no som emitido pelo speaker.
-		\item[{\bf 7.}]$C_8$ e $R_1$ desacoplam a entrada de áudio (bypass pin).
-		\item[{\bf 8.}]Os potenciômetros têm finalidade de teste (possivelmente serão substituídos por resistores, uma vez devidamente testadas resistências condizentes com o circuito).
-	\end{itemize}
 
 \section{Escolha de Microcontrolador ($\mu$C)}
 	\subsection{STM32}
@@ -271,14 +199,14 @@ Será utilizado, a priori, um filtro passa-baixa a fim de reduzir o ruído de al
 	Depois de uma curta pesquisa de mercado, a placa STM32F103C8 da ST, também conhecida como {\it bluepill}, parece atender bem aos quesitos supraescritos, com um processador Cortex-M3 de 72MHz de clock interno, é um dos microcontroladores mais potentes da categoria fabricados pela ST, o que satisfaz o tópico {\bf 3}.\\
 	\begin{center}
 		\includegraphics[width=0.5\textwidth]{bluepill}\\
-		\footnotesize{figura 1.7: STM32F103C8.}
+		\footnotesize{figura 1.4: STM32F103C8.}
 	\end{center}
 
 	
 	Qualquer processador dessa linha da ST pode ser programado e debuggado via uma interface chamada ST-Link, que também foi de fácil obtenção e baixo custo, e basicamente é composta por um outro processador que conversa em tempo real com a placa alvo.
 	\begin{center}
 	\includegraphics[width=0.2\textwidth]{stlink}\\
-	\footnotesize{figura 1.8: Programador SWD ST-Link.}
+	\footnotesize{figura 1.5: Programador SWD ST-Link.}
 	\end{center}
 	
 	\subsection{Suporte}
@@ -316,11 +244,12 @@ Será utilizado, a priori, um filtro passa-baixa a fim de reduzir o ruído de al
 	\draw[<-] (makefile.north) -- (STM.east);
 	\draw[<-] (HAL.north) -- (STM.west);
 	\end{tikzpicture}\vspace{0.1cm}
-	\footnotesize{figura 1.9: Flowchart de programação e desenvolvimento do firmware.}
+	\footnotesize{figura 1.6: Flowchart de programação e desenvolvimento do firmware.}
 	\end{center}
 
 \chapter{Simulação e Algoritmo}
 	\section{Simulação usando Octave}
+		\subsection{Simulaçao do algoritmo de Modulação}
 	
 	Os algoritmos foram programados usando Octave, uma linguagem de manipulação de vetores que possui pacotes específicos voltados à comunicação e sinais digitais. Também possuí uma função \texttt{agwn}, ou {\it Additive Gaussian White Noise}, que introduz ruído no sistema e no sinal.\\
 	
@@ -372,6 +301,7 @@ Será utilizado, a priori, um filtro passa-baixa a fim de reduzir o ruído de al
 	{\footnotesize figura 2.1: Plots das ondas - em ordem -: Carrier, Vetor de binário, Carrier modulado e sinal com noise recebido.}
 \end{center}
 
+		\subsection{Simulação do algoritmo de Demodulação}
 		O processo de demodulação do sinal consiste em, basicamente, avaliar quantas vezes o sinal cruza a origem (em relação ao eixo temporal) para que, dessa forma, se consiga gerar uma frequência média para esse.\\
 		
 		A partir do número de vezes em que o sinal passa pela origem, é criado um vetor que contem essa quantidade. Esse vetor (no contexto de nossa simulação, de 10 componentes) é normalizado conforme a média de zeros contida em cada uma das 10 posições (é o processo de reconstrução da onda carrier). Isso é feito a fim de se comparar, após cálculo, com o valor 1, ou seja: se o "número de zeros" normalizados forem maiores do que ou iguais a 1 na posição 0 do vetor, então a posição 0 do vetor assume valor binário 1, já que houve mais oscilações que a média nesse intervalo de tempo (frequência mais alta). Caso o valor normalizado seja menor que 1, então a componente correspondente no vetor assume valor binário 0.\\
@@ -403,9 +333,84 @@ Será utilizado, a priori, um filtro passa-baixa a fim de reduzir o ruído de al
 	
 	Isso valida este algoritmo e o torna próprio para produção.
 	\newpage
+	
+\chapter{Tratamento analógico do sistema}
+	\section{Tratamento do sinal analógico recebido}
+
+Será utilizado, a priori, um filtro passa-baixa a fim de reduzir o ruído de alta frequência, além de um amplificador não inversor (que garantirá uma clara análise do sinal).
+
+\begin{center}
+	\begin{circuitikz} \draw
+		(0, 0) node[op amp] (opamp) {}
+		(opamp.-) -- (-3, 0.5)
+		to[C, l=$C$] (-3, -4)
+		(-3, 0.5) to[R, *-, l=$R_1$] (-6, 0.5) node[label={$V_{in}$}] {}
+		(opamp.+) to[short,*-] ++(0,-1.5) coordinate (leftR)
+		to[R, l=$R_3$] (leftR -| opamp.out)
+		to[short,-*] (opamp.out)
+		to ++(1,0) node[label={$V_{out}$}] {}
+		(-1, -2) to[R, *-, l=$R_2$] (-1,-4)
+		(-3, -4) -- (-1, -4)
+		(-2,-4) to (-2,-5) node[ground] {}
+		;
+	\end{circuitikz}
+	{\footnotesize figura 3.1: Filtro Amplificador}
+\end{center}
+
+
+A frequência de corte do circuito acima é dada por \newline
+\begin{equation}
+f_c = \frac{1}{2\cdot\pi\cdot{R_1}\cdot{C}}
+\end{equation}
+
+
+E o ganho por \newline
+\begin{equation}
+\frac{V_{out}}{V_{in}} = G = 1 + \frac{R_3}{R_2}
+\end{equation}
+
+
+Espera-se trabalhar com frequências na faixa audível ($20 Hz$ a $20 kHz$). Portanto, pode-se colocar uma frequência de corte razoável de 22 kHz a priori, já que, dessa forma, o ruído de alta frequência filtrado não interferirá nos sinais desejados.\\
+
+Para tal, usamos um capacitor com capacitância $C = 0.1\mu{F}$, o que nos resulta:
+
+\begin{equation}
+R_1 = \frac{1}{2\cdot{\pi}\cdot{0.1}\cdot{10^{-6}}\cdot{22}\cdot{10^3}} \approx 72\Omega 
+\end{equation}
+
+Para avaliarmos o ganho, deixamos em $R_3$ um potenciômetro e, assim, avaliamos, a posteriori, qual o melhor ganho para se projetar (aquele cuja análise posterior for facilitada).\\
+
+\section{Circuito amplificador de som}
+\paragraph{}
+O núcleo do amplificador será o chip {\it LM386}, cuja pinagem pode ser vista abaixo:\\
+
+\begin{center}
+	\includegraphics[width=0.5\textwidth]{LM386_pinout_diagram.png}\\
+	\footnotesize{figura 3.2: Diagrama com pinagem do LM386}
+\end{center}
+
+O circuito abaixo será utilizado a fim de se amplificar o sinal emitido pelo modulador, para que esse seja reproduzido pelo transdutor utilizado.\footnote{http://www.circuitbasics.com/build-a-great-sounding-audio-amplifier-with-bass-boost-from-the-lm386/}\\
+
+\begin{center}
+	\includegraphics[width=\linewidth]{amplifier_circuit.png}\\
+	\footnotesize{figura 3.3: Circuito amplificador (conectado entre saída do emissor e entrada do speaker/transdutor)}
+\end{center}
+
+\begin{itemize}
+	\item[{\bf 1.}]$C_1$ é responsável por filtrar eventuais interferências captadas pelos fios.
+	\item[{\bf 2.}]$C_2$ e $C_3$ são responsáveis por desacoplar a fonte do amplificador. o de $100\mu{F}$ filtrará ruído de alta frequência, enquanto o de $0.1\mu{F}$, de baixa.
+	\item[{\bf 3.}]$C_4$ desacopla os pinos de alimentação do chip.
+	\item[{\bf 4.}]$C_5$, juntamente com o potenciômetro, tem a função de regular o ganho do {\it LM386} entre 20 e 200 vezes.\footnote{http://www.ti.com/lit/ds/symlink/lm386.pdf}
+	\item[{\bf 5.}]$C_6$ rejeita correntes contínuas.
+	\item[{\bf 6.}]$C_7$ e $R_2$ atuam como um passa-alta, a fim de evitar ruídos no som emitido pelo speaker.
+	\item[{\bf 7.}]$C_8$ e $R_1$ desacoplam a entrada de áudio ({\it bypass pin}).
+	\item[{\bf 8.}]Os potenciômetros têm finalidade de teste (possivelmente serão substituídos por resistores, uma vez devidamente testadas resistências ótimas ao circuito).
+\end{itemize}
+\newpage
+	
 \chapter{Apêndice}
 \section{Códigos de Simulação utilizados}
-Os códigos podem ser encontrados no repositório indicado na nota da página contra-capa, incluindo esse documento, história de desenvolvimento e mais.
+Os códigos podem ser encontrados no repositório indicado na nota da contra-capa, incluindo esse documento, história de desenvolvimento e mais.
 \subsection{Código de Modulação}
 	\begin{minted}[frame=lines,
 framesep=2mm,
