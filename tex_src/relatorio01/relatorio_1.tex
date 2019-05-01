@@ -358,7 +358,7 @@ Será utilizado, a priori, um filtro passa-baixa a fim de reduzir o ruído de al
 
 		O processo de demodulação do sinal consiste em, basicamente, avaliar quantas vezes o sinal cruza a origem (em relação ao eixo temporal) para que, dessa forma, se consiga gerar uma frequência média para esse.\\
 		
-		A partir do número de vezes em que o sinal passa pela origem, é deetrminado um vetor que contem essa quantidade. Esse vetor (em nosso caso, de 10 componentes) é normalizado conorme a média de zeros contida em cada uma das 10 posições (é o processo de reconstrução da onda carrier). Isso é feito a fim de se comparar, após cálculo, com o valor 1, ou seja: se o "número de zeros" normalizados forem maiores do que ou iguais a 1 na posição 0 do vetor, então a posição 0 do vetor assume bit 1, já que houve mais oscilações que a média nesse intervalo de tempo (frequência mais alta). Caso o valor normalizado seja menor que 1, então a componente correspondente no vetor assume valor binário 0.\\
+		A partir do número de vezes em que o sinal passa pela origem, é criado um vetor que contem essa quantidade. Esse vetor (em nosso caso, de 10 componentes) é normalizado conforme a média de zeros contida em cada uma das 10 posições (é o processo de reconstrução da onda carrier). Isso é feito a fim de se comparar, após cálculo, com o valor 1, ou seja: se o "número de zeros" normalizados forem maiores do que ou iguais a 1 na posição 0 do vetor, então a posição 0 do vetor assume bit 1, já que houve mais oscilações que a média nesse intervalo de tempo (frequência mais alta). Caso o valor normalizado seja menor que 1, então a componente correspondente no vetor assume valor binário 0.\\
 		
 		O primeiro gráfico retrata o vetor original (aquele que fora emitido).\\
 		
