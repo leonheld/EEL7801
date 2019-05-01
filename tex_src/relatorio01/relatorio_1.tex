@@ -365,6 +365,8 @@ Será utilizado, a priori, um filtro passa-baixa a fim de reduzir o ruído de al
 		O segundo, o vetor que foi recebido e demodulado.\\
 		
 		O terceiro, a comparação final entre o sinal emitido e o sinal percebido. Os erros ocorrem em função, principalmente, do ruído (de alta frequência), que altera a frequência da onda carrier demodulada.\\
+		
+		Perceptivelmente, de 10 bits, 5 tiveram erros de transmissão. Isso se dá pelo fato do {\it noise} introduzido ter sido máximo, garantindo que mesmo que o sinal esteja destruído por interferências, pelo menos 50\% dos bits serão transmitidos com sucesso.
 
 	\includepdf[page={1}]{sinais_comp}
 	\subsection{demod}
