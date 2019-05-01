@@ -120,7 +120,9 @@
 		\end{axis}
 		\end{tikzpicture}
 	\end{center}
-
+\begin{center}
+	{\footnotesize figura 1.1: todo}
+\end{center}
 
 Há, também, uma segunda possibilidade: de o microfone não reagir significativamente a diferentes frequências, mas de ainda assim conseguir diferenciá-las. Isto é: o microfone identifica quando duas frequências recebidas são diferentes, mas sua curva de queda de tensão se aproxima de uma constante, como no exemplo a seguir:
 
@@ -140,6 +142,9 @@ Há, também, uma segunda possibilidade: de o microfone não reagir significativ
 	\addplot {2}; 
 	\end{axis}
 	\end{tikzpicture}
+\end{center}
+\begin{center}
+	{\footnotesize figura 1.2: todo}
 \end{center}
 
 
@@ -163,7 +168,9 @@ Por meio do circuito da (inserir número da imagem aqui) é medida a tensão/pot
 		;
 	\end{circuitikz}
 \end{center}
-
+\begin{center}
+	{\footnotesize figura 1.3: todo}
+\end{center}
 
 Quanto maior a queda de tensão no microfone, maior a energia por ele consumida em relação ao resto do circuito (divisor de tensão), logo, melhor será sua resposta aos estí­mulos sonoros testados.
 
@@ -186,6 +193,7 @@ Será utilizado, a priori, um filtro passa-baixa a fim de reduzir o ruído de al
 		(-2,-4) to (-2,-5) node[ground] {}
 		;
 	\end{circuitikz}
+{\footnotesize figura 1.4: Filtro Amplificador}
 \end{center}
 
 
@@ -218,14 +226,14 @@ Será utilizado, a priori, um filtro passa-baixa a fim de reduzir o ruído de al
 		
 	\begin{center}
 		\includegraphics[width=0.5\textwidth]{LM386_pinout_diagram.png}\\
-		\footnotesize{Diagrama com pinagem do LM386}
+		\footnotesize{figura 1.5: Diagrama com pinagem do LM386}
 	\end{center}
 	
 	O circuito abaixo será utilizado a fim de se amplificar o sinal emitido pelo modulador, para que esse seja reproduzido pelo transdutor utilizado.\footnote{http://www.circuitbasics.com/build-a-great-sounding-audio-amplifier-with-bass-boost-from-the-lm386/}\\
 	
 	\begin{center}
 		\includegraphics[width=\linewidth]{amplifier_circuit.png}\\
-		\footnotesize{Circuito amplificador (conectado entre saída do emissor e entrada do speaker/transdutor)}
+		\footnotesize{figura 1.6: Circuito amplificador (conectado entre saída do emissor e entrada do speaker/transdutor)}
 	\end{center}
 
 	\begin{itemize}
@@ -263,14 +271,14 @@ Será utilizado, a priori, um filtro passa-baixa a fim de reduzir o ruído de al
 	Depois de uma curta pesquisa de mercado, a placa STM32F103C8 da ST, também conhecida como {\it bluepill}, parece preencher bem os quesitos supraescritos, com um processador Cortex-M3 de 72MHz de clock interno, é um dos microcontroladores mais potentes da categoria fabricados pela ST, o que preenche bem o requisito {\bf 3}.\\
 	\begin{center}
 		\includegraphics[width=0.5\textwidth]{bluepill}\\
-		\footnotesize{STM32F103C8.}
+		\footnotesize{figura 1.7: STM32F103C8.}
 	\end{center}
 
 	
 	Qualquer processador dessa linha da ST pode ser programado e debuggado via uma interface chamada ST-Link, que também foi de fácil obtenção e baixo custo, e basicamente inclui um outro processador que conversa em tempo real com a placa alvo.
 	\begin{center}
 	\includegraphics[width=0.2\textwidth]{stlink}\\
-	\footnotesize{Programador SWD ST-Link.}
+	\footnotesize{figura 1.8: Programador SWD ST-Link.}
 	\end{center}
 	
 	\subsection{Suporte}
@@ -308,7 +316,7 @@ Será utilizado, a priori, um filtro passa-baixa a fim de reduzir o ruído de al
 	\draw[<-] (makefile.north) -- (STM.east);
 	\draw[<-] (HAL.north) -- (STM.west);
 	\end{tikzpicture}\vspace{0.1cm}
-	\footnotesize{Flowchart de programação e desenvolvimento do firmware.}
+	\footnotesize{figura 1.9: Flowchart de programação e desenvolvimento do firmware.}
 	\end{center}
 
 \chapter{Simulação e Algoritmo}
@@ -354,7 +362,15 @@ Será utilizado, a priori, um filtro passa-baixa a fim de reduzir o ruído de al
 	O terceiro gráfico é a onda já modulada, passada pelo algoritmo citado acima. Perceba os cortes horizontais de frequência gerados pelo vetor do pulso quadrado.\\
 	
 	A quarta onda é a terceira com {\it white noise} adicionado. Podemos usar o white noise como barulho e interferência criado pelo ambiente durante a execução do programa. A razão $\frac{sinal}{noise}$ naquele caso está extremamente alta, da ordem de 100. É perceptível a diferença na onda.
-	\includepdf[page={1}]{sinais}
+	\begin{center}
+	
+	\includegraphics[clip, trim=0.0cm 0cm 0.0cm 0.0cm, width=1.00\textwidth]{sinais}
+	
+	\end{center}
+
+\begin{center}
+	{\footnotesize figura 2.1: Plots das ondas - em ordem -: Carrier, Vetor de binário, Carrier modulado e sinal com noise recebido.}
+\end{center}
 
 		O processo de demodulação do sinal consiste em, basicamente, avaliar quantas vezes o sinal cruza a origem (em relação ao eixo temporal) para que, dessa forma, se consiga gerar uma frequência média para esse.\\
 		
@@ -369,7 +385,9 @@ Será utilizado, a priori, um filtro passa-baixa a fim de reduzir o ruído de al
 \begin{center}
 	\includegraphics[clip, trim=0.0cm 0cm 0.0cm 0.0cm, 								width=1.00\textwidth]{sinais_comp}
 \end{center}
-
+\begin{center}
+	{\footnotesize figura 2.2: Plot discreto dos bits - em ordem -: A serem enviados, recebidos e se houve erro.}
+\end{center}
 	Perceptivelmente, de 10 bits, 5 tiveram erros de transmissão. Isso se dá pelo fato do {\it noise} introduzido ter sido máximo, garantindo que mesmo que o sinal esteja destruído por interferências, pelo menos 50\% dos bits serão transmitidos com sucesso.\\
 		
 	É útil, então, saber como o erro de transmissão se comporta em relação à distorção e interferência no sinal. Esse plot apresenta justamente isso, com 500 iterações do mesmo vetor binário sendo modulado e demodulado, mas com a razão de interferência/sinal variando. 
@@ -377,6 +395,9 @@ Será utilizado, a priori, um filtro passa-baixa a fim de reduzir o ruído de al
 
 		\includegraphics[clip, trim=0.0cm 0cm 0.0cm 0.0cm, 								width=1.00\textwidth]{errorplot}
 	\end{center}
+\begin{center}
+	{\footnotesize figura 2.3: descrição}
+\end{center}
 	O Valor Esperado de Erros (em $\%$) decresce conforme a razão de interferência cai (noise aumenta com o sinal constante).
 	\subsection{demod}
 	
