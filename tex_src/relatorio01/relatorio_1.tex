@@ -249,40 +249,40 @@ Será utilizado, a priori, um filtro passa-baixa a fim de reduzir o ruído de al
 
 \section{Escolha de Microcontrolador ($\mu$C)}
 	\subsection{STM32}
-	O microcontrolador foi escolhido na base da seguinte {\it criteria}:
+	O microcontrolador foi escolhido com base no seguintes critérios:
 	
 	\begin{itemize}
-		\item[{\bf 1)}]Baixo Custo: O controlador deve ter um custo mínimo, com alta flexibilidade de prototipação. Deve incluir um programador integrado, ou possuir algum de baixo custo e facilmente acessível.
+		\item[{\bf 1.)}]Baixo Custo: O controlador deve ter um custo mínimo, com alta flexibilidade de prototipação. Deve incluir um programador integrado, ou possuir algum de baixo custo e facilmente acessível.
 		
-		\item[{\bf 2)}] Alto suporte: O controlador deve ter suporte de compiladores, ambientes de programação, comunidade de software aberto e pela própria empresa que o fabrica.
+		\item[{\bf 2.)}]Alto suporte: O controlador deve ter suporte de compiladores, ambientes de programação, comunidade de software aberto e pela própria empresa que o fabrica.
 		
-		\item[{\bf 3)}] Performance: A unidade deve ter uma performance que faz processamento de dados e sinais com relativa rapidez, de forma que a sua capacidade de processamento não dite o algoritmo e execução do programa.
+		\item[{\bf 3.)}]Performance: A unidade deve ter uma performance que faz processamento de dados e sinais com relativa rapidez, de forma que a sua capacidade de processamento não dite o algoritmo e execução do programa.
 	
 	\end{itemize}
 
-	Em consideração aos items {\bf 1} e {\bf 2}, se optou por utilizar algum controlador da família ARM™, indubtavelmente a família mais utilizada de processadores no mundo, e desta forma, acessível e de bom suporte. \\
+	Em consideração aos items {\bf 1} e {\bf 2}, se optou por utilizar algum controlador da família ARM™, indubitavelmente a família mais utilizada de processadores no mundo, e desta forma, acessível e de bom suporte. \\
 	
-	O quesito performance nos faz olhar para as famílias de processadores que a ARM atualmente oferece, dentre as quais, os processadores Cortex-M3 \footnote{https://developer.arm.com/ip-products/processors/cortex-m/cortex-m3} parecem entrar nos quesitos. \\
+	O quesito performance nos faz olhar para as famílias de processadores que a ARM atualmente oferece, dentre as quais, os processadores Cortex-M3 \footnote{https://developer.arm.com/ip-products/processors/cortex-m/cortex-m3} parecem preencher os quesitos satisfatoriamente. \\
 	
 	De acordo com o página da empresa sobre o processador:\\
 	
 	``The Arm Cortex-M3 processor is the industry-leading 32-bit processor for highly deterministic real-time applications."\\
 	
-	Depois de uma curta pesquisa de mercado, a placa STM32F103C8 da ST, também conhecida como {\it bluepill}, parece preencher bem os quesitos supraescritos, com um processador Cortex-M3 de 72MHz de clock interno, é um dos microcontroladores mais potentes da categoria fabricados pela ST, o que preenche bem o requisito {\bf 3}.\\
+	Depois de uma curta pesquisa de mercado, a placa STM32F103C8 da ST, também conhecida como {\it bluepill}, parece atender bem aos quesitos supraescritos, com um processador Cortex-M3 de 72MHz de clock interno, é um dos microcontroladores mais potentes da categoria fabricados pela ST, o que satisfaz o tópico {\bf 3}.\\
 	\begin{center}
 		\includegraphics[width=0.5\textwidth]{bluepill}\\
 		\footnotesize{figura 1.7: STM32F103C8.}
 	\end{center}
 
 	
-	Qualquer processador dessa linha da ST pode ser programado e debuggado via uma interface chamada ST-Link, que também foi de fácil obtenção e baixo custo, e basicamente inclui um outro processador que conversa em tempo real com a placa alvo.
+	Qualquer processador dessa linha da ST pode ser programado e debuggado via uma interface chamada ST-Link, que também foi de fácil obtenção e baixo custo, e basicamente é composta por um outro processador que conversa em tempo real com a placa alvo.
 	\begin{center}
 	\includegraphics[width=0.2\textwidth]{stlink}\\
 	\footnotesize{figura 1.8: Programador SWD ST-Link.}
 	\end{center}
 	
 	\subsection{Suporte}
-	O suporte oferecido tanto pela ARM quanto pela ST é extenso. A ST produz seu próprio software de pré-configuração e geração de código chamado STM32CubeMX, que é uma {\it Graphical User Interface} usada para gerar o código inicial, como configuração de clock interno e dos pinos do processador, por exemplo.\\
+	O suporte oferecido tanto pela ARM quanto pela ST é extenso: a ST produz seu próprio software de pré-configuração e geração de código chamado STM32CubeMX, que é uma {\it Graphical User Interface} usada para gerar o código inicial, como configuração de clock interno e dos pinos do processador.\\
 	
 	A ARM também mantém um compilador, um debugger e utilidades de programação para sua linha de processadores, todas as ferramentas baseadas no GCC, GDB e Gnu Binutils.\footnote{https://developer.arm.com/tools-and-software/open-source-software/developer-tools/gnu-toolchain}\\
 	
@@ -291,9 +291,9 @@ Será utilizado, a priori, um filtro passa-baixa a fim de reduzir o ruído de al
 	\subsection{Processo de Desenvolvimento}
 	Desde a última versão, o STM32CubeMX consegue produzir um Makefile que pode ser compilado pelo programa {\it make} chamando o compilador de C cedido pela ARM.\\
 	
-	A partir disso, o compilador gera arquivos .hex, .elf e .bin, quaisquer podendo ser inseridos na memoria interna do microcontrolador pelo openocd.\\
+	A partir disso, o compilador gera arquivos .hex, .elf e .bin, quaisquer podendo ser inseridos na memória interna do microcontrolador pelo {\it openocd}.\\
 	
-	Para a programação, existe uma HAL - {\it Hardware Abstration Layer} -, também fornecida pela ST, que é incluída nos sources do projeto no momento da inicialização do código pelo STM32CubeMX e possuí funções específicas de baixo nível, mas tem as mesmas chamadas em quaisquer processador alvo que queira executar o código, aumentando a portabilidade. Também, a HAL é construída de forma a aumentar o nível de abstração, diminuindo significativamente a complexidade do código, permitindo desenvolvimento rápido e colaborativo, sem necessariamente conhecer todos os artifícios de baixo nível de cada processador.
+	Para a programação, existe uma HAL - {\it Hardware Abstration Layer} -, também fornecida pela ST, que é incluída nos sources do projeto no momento da inicialização do código pelo STM32CubeMX e possuí funções específicas de baixo nível, mas tem as mesmas chamadas em quaisquer processadores alvo em que se queira executar o código, aumentando a portabilidade. Ademais, a HAL é construída de forma a aumentar o nível de abstração, diminuindo significativamente a complexidade do código, permitindo desenvolvimento rápido e colaborativo, sem necessariamente conhecer todos os artifícios de baixo nível de cada processador.
 	\begin{center}
 		\begin{tikzpicture}
 	[node distance=.8cm,
@@ -322,11 +322,11 @@ Será utilizado, a priori, um filtro passa-baixa a fim de reduzir o ruído de al
 \chapter{Simulação e Algoritmo}
 	\section{Simulação usando Octave}
 	
-	Os algoritmos foram programandos usando Octave, uma linguagem de manipulação de vetores que possuí pacotes específicos para comunicação e sinais digitais. Também possuí uma função \texttt{agwn}, ou {\it Additive Gaussian White Noise}, que introduz barulho no sistema e no sinal.\\
+	Os algoritmos foram programados usando Octave, uma linguagem de manipulação de vetores que possui pacotes específicos voltados à comunicação e sinais digitais. Também possuí uma função \texttt{agwn}, ou {\it Additive Gaussian White Noise}, que introduz ruído no sistema e no sinal.\\
 	
-	O algoritmo base de simulação foi pego do site da MathWorks, criadora do MATLAB, linguagem compatível com Octave.  Dessa base, alteramos o código de forma a cortar excessos e tentando eliminar elementos de aleatoriedade, vistos que são mais difíceis de se obter na plataforma de hardware que pretendemos usar. Também modularizamos o código de forma que podemos fazer $n$ simulações com padrões diferentes de onda, {\it sampling rates}, diferentes frequências e tudo entre o meio.\\
+	O algoritmo base de simulação foi obtido no site da MathWorks, criadora do MATLAB (linguagem compatível com Octave). Dessa base, alteramos o código de forma a cortar excessos e tentando eliminar elementos de aleatoriedade, vistos que são mais difíceis de se obter na plataforma de hardware que pretendemos usar. Também modularizamos o código de forma que podemos fazer $n$ simulações com padrões diferentes de onda, {\it sampling rates}, diferentes frequências e tudo entre o meio.\\
 	
-	O algoritmo é extremamente bem conhecido e documentado. O algoritmo de modulação compreende em gerar uma onda sinusóide que é modulada em função de um vetor binário. De forma resumida:
+	O algoritmo é extremamente bem conhecido e documentado. O algoritmo de modulação tem por objetivo gerar uma onda sinusóide que é modulada em função de um vetor binário. De forma resumida:
 	\begin{equation}
 	\mathfrak{F}(V)\ onde\ V(i) = 1 \lor 0\ para\ i \in \mathbb{N}
 	\end{equation}
@@ -351,17 +351,17 @@ Será utilizado, a priori, um filtro passa-baixa a fim de reduzir o ruído de al
 	
 	Dessa forma, se constrói uma onda que varia no tempo e é construída com duas frequências de acordo com os bits do vetor que se deseja modular.\\
 	
-	Em termos de implementação, é possível direcionar os valores amostrados dessa senóide para um Conversor Digital Analógico, e obter amplificação das mesmas.\\
+	Em termos de implementação, é possível direcionar os valores amostrados dessa senóide para um Conversor Digital Analógico, e obter amplificação dessas.\\
 	
-	O resultado da simulação pode ser visto da próxima página. O primeiro gráfico representa uma onda pura, não modulada, a "carrier", que como mencionamos, nunca será gerada no contexto do nosso algoritmo.\\
+	O resultado da simulação pode ser visto da próxima página. O primeiro gráfico representa uma onda pura, não modulada, a "carrier", que, como mencionamos, nunca será gerada no contexto do nosso algoritmo.\\
 	
 	O segundo gráfico está associado com um pulso quadrado de mensagens que representa o vetor 
 	
 	\[V = [1\ 0\ 1\ 0\ 1\ 1\ 1\ 0\ 0\ 1]\]
 	
-	O terceiro gráfico é a onda já modulada, passada pelo algoritmo citado acima. Perceba os cortes horizontais de frequência gerados pelo vetor do pulso quadrado.\\
+	O terceiro gráfico é a onda já modulada, gerada pelo algoritmo citado acima. Perceba os cortes horizontais de frequência gerados pelo vetor do pulso quadrado.\\
 	
-	A quarta onda é a terceira com {\it white noise} adicionado. Podemos usar o white noise como barulho e interferência criado pelo ambiente durante a execução do programa. A razão $\frac{sinal}{noise}$ naquele caso está extremamente alta, da ordem de 100. É perceptível a diferença na onda.
+	A quarta onda é a terceira com {\it white noise} adicionado. Podemos usar o white noise como ruídos e interferências criados pelo ambiente durante a execução do programa. A razão $\frac{sinal}{noise}$ naquele caso está extremamente alta, da ordem de 100. É perceptível a diferença na onda.
 	\begin{center}
 	
 	\includegraphics[clip, trim=0.0cm 0cm 0.0cm 0.0cm, width=1.00\textwidth]{sinais}
@@ -374,13 +374,13 @@ Será utilizado, a priori, um filtro passa-baixa a fim de reduzir o ruído de al
 
 		O processo de demodulação do sinal consiste em, basicamente, avaliar quantas vezes o sinal cruza a origem (em relação ao eixo temporal) para que, dessa forma, se consiga gerar uma frequência média para esse.\\
 		
-		A partir do número de vezes em que o sinal passa pela origem, é criado um vetor que contem essa quantidade. Esse vetor (em nosso caso, de 10 componentes) é normalizado conforme a média de zeros contida em cada uma das 10 posições (é o processo de reconstrução da onda carrier). Isso é feito a fim de se comparar, após cálculo, com o valor 1, ou seja: se o "número de zeros" normalizados forem maiores do que ou iguais a 1 na posição 0 do vetor, então a posição 0 do vetor assume bit 1, já que houve mais oscilações que a média nesse intervalo de tempo (frequência mais alta). Caso o valor normalizado seja menor que 1, então a componente correspondente no vetor assume valor binário 0.\\
+		A partir do número de vezes em que o sinal passa pela origem, é criado um vetor que contem essa quantidade. Esse vetor (no contexto de nossa simulação, de 10 componentes) é normalizado conforme a média de zeros contida em cada uma das 10 posições (é o processo de reconstrução da onda carrier). Isso é feito a fim de se comparar, após cálculo, com o valor 1, ou seja: se o "número de zeros" normalizados forem maiores do que ou iguais a 1 na posição 0 do vetor, então a posição 0 do vetor assume valor binário 1, já que houve mais oscilações que a média nesse intervalo de tempo (frequência mais alta). Caso o valor normalizado seja menor que 1, então a componente correspondente no vetor assume valor binário 0.\\
 		
-		O primeiro plot retrata o vetor original (aquele que fora emitido).\\
+		O primeiro gráfico retrata o vetor original (aquele que fora emitido).\\
 		
-		O segundo, o vetor que foi recebido e demodulado.\\
+		O segundo, o vetor que foi recebido e já demodulado.\\
 		
-		O terceiro, a comparação final entre o sinal emitido e o sinal percebido. Os erros ocorrem em função, principalmente, do ruído (de alta frequência), que altera a frequência da onda carrier demodulada.
+		O terceiro, a comparação final entre o sinal emitido e o sinal percebido. Os erros ocorrem em função, principalmente, do ruído (de alta frequência) e de interferências, que altera a forma da onda carrier demodulada.
 		
 \begin{center}
 	\includegraphics[clip, trim=0.0cm 0cm 0.0cm 0.0cm, 								width=1.00\textwidth]{sinais_comp}
