@@ -1,0 +1,48 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{data} \PYG{p}{=} \PYG{p}{[}\PYG{l+m+mi}{1} \PYG{l+m+mi}{0} \PYG{l+m+mi}{1} \PYG{l+m+mi}{0} \PYG{l+m+mi}{1} \PYG{l+m+mi}{1} \PYG{l+m+mi}{1} \PYG{l+m+mi}{0} \PYG{l+m+mi}{0} \PYG{l+m+mi}{1}\PYG{p}{];}
+\PYG{n}{nro\PYGZus{}bits} \PYG{p}{=} \PYG{n+nb}{length}\PYG{p}{(}\PYG{n}{data}\PYG{p}{);}
+
+\PYG{c}{\PYGZpc{}DEFINIR SINAL CARRIER}
+\PYG{c}{\PYGZpc{}\PYGZpc{}\PYGZpc{}\PYGZpc{}\PYGZpc{}\PYGZpc{}\PYGZpc{}\PYGZpc{}\PYGZpc{}\PYGZpc{}\PYGZpc{}\PYGZpc{}\PYGZpc{}\PYGZpc{}\PYGZpc{}\PYGZpc{}\PYGZpc{}\PYGZpc{}\PYGZpc{}\PYGZpc{}\PYGZpc{}\PYGZpc{}\PYGZpc{}\PYGZpc{}\PYGZpc{}\PYGZpc{}\PYGZpc{}\PYGZpc{}\PYGZpc{}\PYGZpc{}\PYGZpc{}\PYGZpc{}\PYGZpc{}\PYGZpc{}\PYGZpc{}\PYGZpc{}\PYGZpc{}\PYGZpc{}\PYGZpc{}\PYGZpc{}\PYGZpc{}\PYGZpc{}\PYGZpc{}\PYGZpc{}\PYGZpc{}\PYGZpc{}\PYGZpc{}\PYGZpc{}\PYGZpc{}\PYGZpc{}\PYGZpc{}\PYGZpc{}\PYGZpc{}\PYGZpc{}\PYGZpc{}\PYGZpc{}\PYGZpc{}\PYGZpc{}\PYGZpc{}\PYGZpc{}\PYGZpc{}\PYGZpc{}\PYGZpc{}\PYGZpc{}\PYGZpc{}\PYGZpc{}\PYGZpc{}\PYGZpc{}\PYGZpc{}\PYGZpc{}\PYGZpc{}\PYGZpc{}\PYGZpc{}}
+\PYG{c}{\PYGZpc{}frequência e período da onda carrier}
+\PYG{n}{frequencia\PYGZus{}carrier} \PYG{p}{=} \PYG{l+m+mi}{1000}\PYG{p}{;}
+\PYG{n}{periodo\PYGZus{}carrier} \PYG{p}{=} \PYG{l+m+mi}{1}\PYG{o}{/}\PYG{n}{frequencia\PYGZus{}carrier}\PYG{p}{;}
+
+\PYG{c}{\PYGZpc{}frequência e período que definem a sampling rate}
+\PYG{n}{f\PYGZus{}sampling} \PYG{p}{=} \PYG{n}{frequencia\PYGZus{}carrier} \PYG{o}{*} \PYG{l+m+mi}{100}\PYG{p}{;}
+\PYG{n}{periodo\PYGZus{}sampling} \PYG{p}{=} \PYG{l+m+mi}{1}\PYG{o}{/}\PYG{n}{f\PYGZus{}sampling}\PYG{p}{;}
+
+
+\PYG{n}{holdup\PYGZus{}time} \PYG{p}{=} \PYG{l+m+mi}{10}\PYG{p}{;}
+\PYG{n}{proportional\PYGZus{}holdup\PYGZus{}time} \PYG{p}{=} \PYG{n}{holdup\PYGZus{}time}\PYG{o}{*}\PYG{n}{nro\PYGZus{}bits}\PYG{p}{;}
+
+\PYG{n}{t} \PYG{p}{=} \PYG{l+m+mi}{0}\PYG{p}{:}\PYG{n}{periodo\PYGZus{}sampling}\PYG{p}{:(}\PYG{n}{proportional\PYGZus{}holdup\PYGZus{}time}\PYG{o}{*}\PYG{n}{periodo\PYGZus{}carrier}\PYG{p}{);}
+
+
+\PYG{n}{onda\PYGZus{}carrier} \PYG{p}{=} \PYG{n+nb}{sin}\PYG{p}{(}\PYG{l+m+mi}{2}\PYG{o}{*}\PYG{n+nb}{pi}\PYG{o}{*}\PYG{n}{t}\PYG{o}{*}\PYG{n}{frequencia\PYGZus{}carrier}\PYG{p}{);}
+
+\PYG{c}{\PYGZpc{}PROCESSO DE MODULAÇÃO}
+
+\PYG{n}{delta\PYGZus{}frequencia} \PYG{p}{=} \PYG{l+m+mf}{0.5}\PYG{p}{;}
+\PYG{n}{frequencia\PYGZus{}alta} \PYG{p}{=}
+ \PYG{n}{frequencia\PYGZus{}carrier} \PYG{o}{+} \PYG{p}{(}\PYG{n}{frequencia\PYGZus{}carrier}\PYG{o}{*}\PYG{n}{delta\PYGZus{}frequencia}\PYG{p}{);}
+\PYG{n}{frequencia\PYGZus{}baixa} \PYG{p}{=}
+ \PYG{n}{frequencia\PYGZus{}carrier} \PYG{o}{\PYGZhy{}} \PYG{p}{(}\PYG{n}{frequencia\PYGZus{}carrier}\PYG{o}{*}\PYG{n}{delta\PYGZus{}frequencia}\PYG{p}{);}
+
+\PYG{c}{\PYGZpc{}definição das frequencias moduladas}
+\PYG{n}{carrier\PYGZus{}alta} \PYG{p}{=} \PYG{n+nb}{sin}\PYG{p}{(}\PYG{l+m+mi}{2}\PYG{o}{*}\PYG{n+nb}{pi}\PYG{o}{*}\PYG{n}{tempo\PYGZus{}sampling}\PYG{o}{*}\PYG{n}{frequencia\PYGZus{}alta}\PYG{p}{);} \PYG{c}{\PYGZpc{}bit alto}
+\PYG{n}{carrier\PYGZus{}baixa} \PYG{p}{=} \PYG{n+nb}{sin}\PYG{p}{(}\PYG{l+m+mi}{2}\PYG{o}{*}\PYG{n+nb}{pi}\PYG{o}{*}\PYG{n}{tempo\PYGZus{}sampling}\PYG{o}{*}\PYG{n}{frequencia\PYGZus{}baixa}\PYG{p}{);} \PYG{c}{\PYGZpc{}bit baixo}
+
+\PYG{n}{sinal\PYGZus{}modulado} \PYG{p}{=} \PYG{p}{[];}
+
+\PYG{k}{for} \PYG{n+nb}{i}\PYG{p}{=}\PYG{l+m+mi}{1}\PYG{p}{:}\PYG{n}{nro\PYGZus{}bits}
+     \PYG{k}{if}\PYG{p}{(}\PYG{n}{data}\PYG{p}{(}\PYG{n+nb}{i}\PYG{p}{)}\PYG{o}{==}\PYG{l+m+mi}{1}\PYG{p}{)}
+         \PYG{n}{sinal\PYGZus{}modulado} \PYG{p}{=} \PYG{p}{[}\PYG{n}{sinal\PYGZus{}modulado} \PYG{n}{carrier\PYGZus{}alta}\PYG{p}{];}
+     \PYG{k}{else}
+         \PYG{n}{sinal\PYGZus{}modulado} \PYG{p}{=} \PYG{p}{[}\PYG{n}{sinal\PYGZus{}modulado} \PYG{n}{carrier\PYGZus{}baixa}\PYG{p}{];}
+     \PYG{k}{end}
+ \PYG{k}{end}
+
+\PYG{n}{ruido} \PYG{p}{=} \PYG{l+m+mf}{0.1}\PYG{p}{;}
+\PYG{n}{onda\PYGZus{}transmitida} \PYG{p}{=} \PYG{n}{awgn}\PYG{p}{(}\PYG{n}{sinal\PYGZus{}modulado}\PYG{p}{,} \PYG{n}{ruido}\PYG{p}{);} \PYG{c}{\PYGZpc{}adiciona ruido no sinal}
+\end{Verbatim}
