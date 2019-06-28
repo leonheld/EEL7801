@@ -2,7 +2,7 @@
 
 int main(void)
 {
-	_Bool transmitted_data[DATA_SIZE] = {1, 0, 1, 1, 1, 1, 1, 1, 0, 1};
+	_Bool transmitted_data[DATA_SIZE] = {1, 0, 1, 0, 1, 1, 1, 0, 0, 1};
 	int *modulated_signal;
 
 	modulated_signal = NULL;
