@@ -2,29 +2,22 @@
 
 int main(void)
 {
-    printf("Original vector (obtained from modulation in C): [ 1 0 1 0 1 1 1 0 0 1 ]\n");
+    printf("Original vector (obtained from modulation in C): \
+        \b\b\b\b\b\b\b\b[ 1 0 1 0 1 1 1 0 0 1 ]\n");
 
     int array[LENGTH];
     int *zeros;
-    double normalized_vector[10];
-    int demodulated_wave[10];
+    double normalized_vector[BITS];
+    int demodulated_wave[BITS];
 
     get_wave(array, LENGTH);
 
     zeros = NULL;
-    analyze_zeros(array, &zeros, 10, 2560);
+    analyze_zeros(array, &zeros, BITS, PERIOD_SAMPLE, get_mean(array, LENGTH));
 
-    double mean = get_mean(zeros, 10);
+    double mean = get_mean(zeros, BITS);
     get_normalized(normalized_vector, zeros, mean);
-
-    printf("Demodulated vector: [ ");
-    for (int i = 0; i < 10; i++)    {
-        if (normalized_vector[i] > 1)    {
-            demodulated_wave[i] = 1;
-        }   else    demodulated_wave[i] = 0;
-        printf("%d ", demodulated_wave[i]); 
-    }
-    printf("]\n");
+    print_vector(normalized_vector);
 
     free(zeros);
 
