@@ -1,20 +1,20 @@
 #include "functions.h"
 
-void get_wave(double array[], int size)
+void get_wave(int array[], int size)
 {
     FILE *myfile;
 
-    myfile=fopen("thisisatest.txt", "r");
+    myfile=fopen("new_mod_result.txt", "r");
 
     for(int i = 0; i < LENGTH; i++)   {
-        fscanf(myfile,"%lf", &array[i]);
+        fscanf(myfile,"%d", &array[i]);
     }
 
     fclose(myfile);
 
 }
 
-void analyze_zeros(double wave[], int **zeros, const int nro_bits, const int sampling_period_length)
+void analyze_zeros(int wave[], int **zeros, const int nro_bits, const int sampling_period_length)
 {
     free(*zeros);
     *zeros = malloc(sizeof(int) * 10);
@@ -25,14 +25,14 @@ void analyze_zeros(double wave[], int **zeros, const int nro_bits, const int sam
     int dif_signal = 0;
 
     for (int i = 0; i < nro_bits; i++)  {
-        int vector_position = 1000 * i;
+        int vector_position = 2560 * i;
         zero_sampling[i] = 0;
         for (int j = 0; j < sampling_period_length; j++) {
             if (dif_signal > nro_bits)  {
-                if (wave[vector_position + j] > 0)   {
+                if (wave[vector_position + j] > 2047)   {
                     positive = 1;
                 }
-                if (wave[vector_position + j] < 0)   {
+                if (wave[vector_position + j] < 2047)   {
                     negative = 1;
                 }
                 if (positive && negative)   {

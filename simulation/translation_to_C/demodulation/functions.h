@@ -1,11 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define LENGTH 10010
+#define LENGTH 25600
 
-void get_wave(double array[], int size);
+void get_wave(int array[], int size);
 
-void analyze_zeros(double wave[], int **zeros, const int nro_bits, const int sampling_period_length);
+void analyze_zeros(int wave[], int **zeros, const int nro_bits, const int sampling_period_length);
 
 double get_mean(int vector[], int vector_size);
 

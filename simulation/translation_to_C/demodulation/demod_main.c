@@ -2,17 +2,17 @@
 
 int main(void)
 {
-    printf("Original vector (obtained from simulation in Octave/Matlab): [ 1 0 1 0 1 1 1 0 0 1 ]\n");
+    printf("Original vector (obtained from modulation in C): [ 1 0 1 0 1 1 1 0 0 1 ]\n");
 
-    double array[LENGTH];
+    int array[LENGTH];
     int *zeros;
     double normalized_vector[10];
     int demodulated_wave[10];
 
     get_wave(array, LENGTH);
-    
+
     zeros = NULL;
-    analyze_zeros(array, &zeros, 10, 1001);
+    analyze_zeros(array, &zeros, 10, 2560);
 
     double mean = get_mean(zeros, 10);
     get_normalized(normalized_vector, zeros, mean);
@@ -24,7 +24,7 @@ int main(void)
         }   else    demodulated_wave[i] = 0;
         printf("%d ", demodulated_wave[i]); 
     }
-    printf("]");
+    printf("]\n");
 
     free(zeros);
 
