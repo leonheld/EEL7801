@@ -6,3 +6,5 @@
 #C
 *.exe
 *.out
+
+!demod_main.exe
