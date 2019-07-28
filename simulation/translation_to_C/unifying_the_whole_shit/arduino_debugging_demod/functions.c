@@ -1,10 +1,10 @@
 #include "functions.h"
 
-void modulate_signal(int arrayMod[])
+void modulate_signal(int **arrayMod)
 {
     int transmitted_data[DATA_SIZE_MOD] = {1, 0, 1, 0, 1, 1, 1, 0, 0, 1};
-    modulated_signal = NULL;
-    lut_association(transmitted_data, &modulated_signal);
+    *arrayMod = NULL;
+    lut_association(transmitted_data, arrayMod);
 }
 
 void lut_association(int input_binary_signal[], int **output_analog_signal)
@@ -12,20 +12,20 @@ void lut_association(int input_binary_signal[], int **output_analog_signal)
     free(*output_analog_signal);
     *output_analog_signal = (int *) malloc(VECTOR_SIZE_MOD * sizeof(int));
     if (*output_analog_signal == NULL)  return;
-    Serial1.println("Alocação de memória: modulação.")
+    printf("Alocação de memória: modulação.");
     for (int i = 0; i < DATA_SIZE_MOD; i++) {
-        int multiple1 = i * DATA_SIZE_MOD * 256;
+        int multiple1 = i * DATA_SIZE_MOD * 64;
         if (input_binary_signal[i] == 1)    {
             for (int j = 0; j < DATA_SIZE_MOD; j++) {
-                int multiple2 = j * 256;
-                for (int k = 0; k < 256; k++)   {
-                    (*output_analog_signal)[multiple1 + multiple2 + k] = lut_T[k % 128];
+                int multiple2 = j * 64;
+                for (int k = 0; k < 64; k++)   {
+                    (*output_analog_signal)[multiple1 + multiple2 + k] = lut_T[k % 32];
                 }
             }
         }   else    {
             for (int j = 0; j < DATA_SIZE_MOD; j++) {
-                int multiple2 = j * 256;
-                for (int k = 0; k < 256; k++)   {
+                int multiple2 = j * 64;
+                for (int k = 0; k < 64; k++)   {
                     (*output_analog_signal)[multiple1 + multiple2 + k] = lut_2T[k];
                 }
             }
@@ -39,7 +39,7 @@ void analyze_zeros(int wave[], int **zeros, const int nro_bits, const int sampli
     free(*zeros);
     *zeros = (int *)malloc(sizeof(int) * nro_bits);
     if (*zeros == NULL) return;
-    Serial1.println("Alocação de memória: demodulação.");
+    printf("Alocação de memória: demodulação.");
     int zero_sampling[nro_bits];
     int positive = 0;
     int negative = 0;
@@ -95,8 +95,8 @@ void print_vector(double vector[])
     printf("Demodulated vector: [ ");
     for (int i = 0; i < BITS_DEMOD; i++)    {
         if (vector[i] > 1)    {
-            Serial1.println("1 ");
-        }   else    Serial1.println("0 "); 
+            printf("1 ");
+        }   else    printf("0 "); 
     }
     printf("]\n");
 }
