@@ -1,23 +1,23 @@
 #include "functions.h"
 
-void get_wave(double array[], int size)
+void get_wave(int array[], int size)
 {
     FILE *myfile;
 
-    myfile=fopen("thisisatest.txt", "r");
+    myfile=fopen("new_mod_result.txt", "r");
 
     for(int i = 0; i < LENGTH; i++)   {
-        fscanf(myfile,"%lf", &array[i]);
+        fscanf(myfile,"%d", &array[i]);
     }
 
     fclose(myfile);
 
 }
 
-void analyze_zeros(double wave[], int **zeros, const int nro_bits, const int sampling_period_length)
+void analyze_zeros(int wave[], int **zeros, const int nro_bits, const int sampling_period_length, double reference)
 {
     free(*zeros);
-    *zeros = malloc(sizeof(int) * 10);
+    *zeros = malloc(sizeof(int) * nro_bits);
     if (*zeros == NULL) return;
     int zero_sampling[nro_bits];
     int positive = 0;
@@ -25,14 +25,14 @@ void analyze_zeros(double wave[], int **zeros, const int nro_bits, const int sam
     int dif_signal = 0;
 
     for (int i = 0; i < nro_bits; i++)  {
-        int vector_position = 1000 * i;
+        int vector_position = PERIOD_SAMPLE * i;
         zero_sampling[i] = 0;
         for (int j = 0; j < sampling_period_length; j++) {
             if (dif_signal > nro_bits)  {
-                if (wave[vector_position + j] > 0)   {
+                if (wave[vector_position + j] > reference)   {
                     positive = 1;
                 }
-                if (wave[vector_position + j] < 0)   {
+                if (wave[vector_position + j] < reference)   {
                     negative = 1;
                 }
                 if (positive && negative)   {
@@ -45,7 +45,7 @@ void analyze_zeros(double wave[], int **zeros, const int nro_bits, const int sam
             dif_signal++;
         }
     }
-    for (int i = 0; i < 10; i++){
+    for (int i = 0; i < BITS; i++){
         (*zeros)[i] = zero_sampling[i];
     }
 }
@@ -62,10 +62,20 @@ double get_mean(int vector[], int vector_size)
 
 void get_normalized(double normalized_vector[], int vector[], double mean)
 {
-    //double normal_vector[10];
-    for (int i = 0; i < 10; i++)   {
+    //double normal_vector[BITS];
+    for (int i = 0; i < BITS; i++)   {
         normalized_vector[i] = (double)vector[i] / mean;
     }
 //    normalized_vector = normal_vector;
 }
 
+void print_vector(double vector[])
+{
+    printf("Demodulated vector: [ ");
+    for (int i = 0; i < BITS; i++)    {
+        if (vector[i] > 1)    {
+            printf("1 ");
+        }   else    printf("0 "); 
+    }
+    printf("]\n");
+}
