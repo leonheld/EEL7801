@@ -1,0 +1,129 @@
+\documentclass[11pt,a4paper]{report}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{pgfplots}
+\usepackage{circuitikz}
+\usepackage{hyperref}
+\usepackage{tikz}
+\usepackage{pdfpages}
+\usepackage{minted}
+\usepackage{mathtools}
+\definecolor{bg}{rgb}{0.95,0.95,0.95}
+\usetikzlibrary{calc,trees,positioning,arrows,chains,shapes.geometric,%
+	decorations.pathreplacing,decorations.pathmorphing,shapes,%
+	matrix,shapes.symbols}
+
+\title{Relatório Final  \\
+	Projeto em Eletrônica I - EEL7801 \\ \vfill
+	\normalsize{Universidade Federal de Santa Catarina - UFSC \\
+		Professora: Daniela Ota Hisayasu Suzuki}
+	\author{
+		{Luiz Augusto Frazatto Fernandes: \it{17202752}} \\
+		{Leonardo José Held: \it{17203984}}
+}
+}
+\date{6 de Julho de 2019}
+\begin{document}
+	\maketitle
+	\setcounter{chapter}{0}
+
+	
+	\chapter{Implementação Algorítimica}
+		A implementação algorítmica teve, como principais desafios, a tradução de códigos de alto nível de modulação e demodulação em códigos de baixo nível, bem como a adequação dos códigos aos MCUs escolhidos. A demodulação, no entanto, não fora completamente finalizada por conta de dois fatores:
+		\begin{list}
+			\item[1.] Uma das placas tornou-se irresponsiva e não mais conseguimos programá-la.
+			\item[2.] Há a necessidade de grande capacidade de memória RAM para se processar o vetor a ser demodulado. Logo, fizemos o uso de um Raspberry Pi 3.
+		\end{list}
+		
+	\section{Modulação em baixo nível (C/C++)}
+	\paragraph{}
+		A modulação é realizada através de duas Look Up Tables (LUT) contendo valores de duas funções seno (cada um com uma frequência diferente). Resumidamente: a informação (convertida em binário) é transformada num sinal modulado por FSK.
+	\subsection{lut.h}
+		\begin{minted}[frame=lines,
+		framesep=2mm,
+		baselinestretch=1.2,
+		bgcolor=bg,
+		fontsize=\footnotesize,
+		linenos
+		]{Cpp}
+		
+		
+		\end{minted}
+		
+	\subsection{lut.c}
+		\begin{minted}[frame=lines,
+		framesep=2mm,
+		baselinestretch=1.2,
+		bgcolor=bg,
+		fontsize=\footnotesize,
+		linenos
+		]{Cpp}
+		
+		
+		\end{minted}
+		
+	\subsection{mod_main.c}
+		\begin{minted}[frame=lines,
+		framesep=2mm,
+		baselinestretch=1.2,
+		bgcolor=bg,
+		fontsize=\footnotesize,
+		linenos
+		]{Cpp}
+		
+		
+		\end{minted}
+		
+	\section{Aquisição dos dados}
+
+
+	\section{Demodulação em baixo nível (C/C++)}
+	\paragraph{}
+		A demodulação consiste em, a partir dos dados obtidos pelo sensor, interpretar o sinal recebido e identificar a frequência com que esse "cruza" a faixa de DC OFFSET. Calcula-se o valor médio da tensão gerada pelo sinal e, a partir desse, consegue-se identificar diferentes frequências.
+	
+	\subsection{functions.h}
+		\begin{minted}[frame=lines,
+		framesep=2mm,
+		baselinestretch=1.2,
+		bgcolor=bg,
+		fontsize=\footnotesize,
+		linenos
+		]{Cpp}
+		
+		
+		\end{minted}
+		
+	
+	\subsection{functions.c}
+		\begin{minted}[frame=lines,
+		framesep=2mm,
+		baselinestretch=1.2,
+		bgcolor=bg,
+		fontsize=\footnotesize,
+		linenos
+		]{Cpp}
+		
+		
+		\end{minted}
+		
+		
+	\subsection{demod_main.c}
+		\begin{minted}[frame=lines,
+		framesep=2mm,
+		baselinestretch=1.2,
+		bgcolor=bg,
+		fontsize=\footnotesize,
+		linenos
+		]{Cpp}
+		
+		
+		\end{minted}
+		
+	
+
+	
+		
+\end{document}

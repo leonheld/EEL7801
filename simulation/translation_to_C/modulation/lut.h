@@ -24,7 +24,7 @@ static const int lut_T[] = {
 	0x8,0x6,0x5,0x4,0x2,0x1,0x1,0x0,
 	0x0,0x0,0x1,0x1,0x2,0x4,0x5,0x6};
 
-void lut_association(_Bool input_binary_signal[], int **output_analog_signal);
+void lut_association(int input_binary_signal[], int **output_analog_signal);
 
 void print_vector(int vector[], int size);
 

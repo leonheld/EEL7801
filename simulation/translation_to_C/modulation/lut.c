@@ -1,6 +1,6 @@
 	#include "lut.h"
 
-void lut_association(_Bool input_binary_signal[], int **output_analog_signal)
+void lut_association(int input_binary_signal[], int **output_analog_signal)
 {
 	free(*output_analog_signal);
 	*output_analog_signal = malloc(VECTOR_SIZE * sizeof(int));
