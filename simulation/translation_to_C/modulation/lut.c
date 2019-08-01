@@ -1,4 +1,4 @@
-	#include "lut.h"
+#include "lut.h"
 
 void lut_association(int input_binary_signal[], int **output_analog_signal)
 {

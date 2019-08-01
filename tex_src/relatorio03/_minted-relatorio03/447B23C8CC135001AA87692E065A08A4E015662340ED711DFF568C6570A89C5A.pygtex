@@ -1,0 +1,40 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+		\PYG{k+kn}{import} \PYG{n+nn}{time}
+		\PYG{k+kn}{import} \PYG{n+nn}{board}
+		\PYG{k+kn}{import} \PYG{n+nn}{busio}
+		\PYG{k+kn}{import} \PYG{n+nn}{adafruit\PYGZus{}ads1x15.ads1115} \PYG{k+kn}{as} \PYG{n+nn}{ADS}
+		\PYG{k+kn}{from} \PYG{n+nn}{adafruit\PYGZus{}ads1x15.ads1115} \PYG{k+kn}{import} \PYG{n}{Mode}
+		\PYG{k+kn}{from} \PYG{n+nn}{adafruit\PYGZus{}ads1x15.analog\PYGZus{}in} \PYG{k+kn}{import} \PYG{n}{AnalogIn}
+		
+		\PYG{n}{RATE} \PYG{o}{=} \PYG{l+m+mi}{860}
+		\PYG{n}{SAMPLES} \PYG{o}{=} \PYG{l+m+mi}{10000}
+		
+		\PYG{c+c1}{\PYGZsh{} BUS I2C de alta frequencia}
+		\PYG{n}{i2c} \PYG{o}{=} \PYG{n}{busio}\PYG{o}{.}\PYG{n}{I2C}\PYG{p}{(}\PYG{n}{board}\PYG{o}{.}\PYG{n}{SCL}\PYG{p}{,} \PYG{n}{board}\PYG{o}{.}\PYG{n}{SDA}\PYG{p}{,} \PYG{n}{frequency}\PYG{o}{=}\PYG{l+m+mi}{1000000}\PYG{p}{)}
+		\PYG{n}{ads} \PYG{o}{=} \PYG{n}{ADS}\PYG{o}{.}\PYG{n}{ADS1115}\PYG{p}{(}\PYG{n}{i2c}\PYG{p}{)}
+		
+		\PYG{c+c1}{\PYGZsh{}Pino A0}
+		\PYG{n}{channel0} \PYG{o}{=} \PYG{n}{AnalogIn}\PYG{p}{(}\PYG{n}{ads}\PYG{p}{,} \PYG{n}{ADS}\PYG{o}{.}\PYG{n}{P0}\PYG{p}{)}
+		
+		\PYG{n}{ads}\PYG{o}{.}\PYG{n}{mode} \PYG{o}{=} \PYG{n}{Mode}\PYG{o}{.}\PYG{n}{CONTINUOUS}
+		\PYG{n}{ads}\PYG{o}{.}\PYG{n}{data\PYGZus{}rate} \PYG{o}{=} \PYG{n}{RATE}
+		\PYG{n}{ads}\PYG{o}{.}\PYG{n}{gain} \PYG{o}{=} \PYG{l+m+mi}{2}\PYG{o}{/}\PYG{l+m+mi}{3}
+		
+		
+		\PYG{n}{adc\PYGZus{}values} \PYG{o}{=} \PYG{p}{[}\PYG{n+nb+bp}{None}\PYG{p}{]}\PYG{o}{*}\PYG{n}{SAMPLES}
+		
+		\PYG{n}{start} \PYG{o}{=} \PYG{n}{time}\PYG{o}{.}\PYG{n}{monotonic}\PYG{p}{()}
+		
+		\PYG{c+c1}{\PYGZsh{} Lê}
+		\PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n}{SAMPLES}\PYG{p}{):}
+		\PYG{n}{adc\PYGZus{}values}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]} \PYG{o}{=} \PYG{n}{channel0}\PYG{o}{.}\PYG{n}{value}
+		\PYG{c+c1}{\PYGZsh{}adc\PYGZus{}values[i] = channel0.voltage}
+		\PYG{n}{end} \PYG{o}{=} \PYG{n}{time}\PYG{o}{.}\PYG{n}{monotonic}\PYG{p}{()}
+		\PYG{n}{total\PYGZus{}time} \PYG{o}{=} \PYG{n}{end} \PYG{o}{\PYGZhy{}} \PYG{n}{start}
+		
+		\PYG{k}{with} \PYG{n+nb}{open}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}values.txt\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}w\PYGZsq{}}\PYG{p}{)} \PYG{k}{as} \PYG{n}{f}\PYG{p}{:}
+		\PYG{k}{for} \PYG{n}{item} \PYG{o+ow}{in} \PYG{n}{adc\PYGZus{}values}\PYG{p}{:}
+		\PYG{n}{f}\PYG{o}{.}\PYG{n}{write}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+si}{\PYGZpc{}s}\PYG{l+s+s2}{ \PYGZdq{}} \PYG{o}{\PYGZpc{}} \PYG{n}{item}\PYG{p}{)}
+		
+		\PYG{k}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Tempo de captura: \PYGZob{}\PYGZcb{}s\PYGZdq{}}\PYG{o}{.}\PYG{n}{format}\PYG{p}{(}\PYG{n}{total\PYGZus{}time}\PYG{p}{))}
+\end{Verbatim}
