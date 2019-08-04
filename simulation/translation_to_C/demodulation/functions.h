@@ -2,7 +2,7 @@
 #include <stdlib.h>
 
 #define BITS 10
-#define PERIOD_SAMPLE 2560
+#define PERIOD_SAMPLE 640
 #define LENGTH (BITS*PERIOD_SAMPLE)
 
 void get_wave(int array[], int size);
