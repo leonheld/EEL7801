@@ -1,0 +1,27 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+		\PYG{c+cp}{\PYGZsh{}include} \PYG{c+cpf}{\PYGZdq{}functions.h\PYGZdq{}}
+		
+		\PYG{k+kt}{int} \PYG{n+nf}{main}\PYG{p}{(}\PYG{k+kt}{void}\PYG{p}{)}
+		\PYG{p}{\PYGZob{}}
+			\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Original vector (obtained from modulation in C): \PYGZbs{}}
+\PYG{l+s}{			[ 1 0 1 0 1 1 1 0 0 1 ]}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{);}
+			
+			\PYG{k+kt}{int} \PYG{n}{array}\PYG{p}{[}\PYG{n}{LENGTH}\PYG{p}{];}
+			\PYG{k+kt}{int} \PYG{o}{*}\PYG{n}{zeros}\PYG{p}{;}
+			\PYG{k+kt}{double} \PYG{n}{normalized\PYGZus{}vector}\PYG{p}{[}\PYG{n}{BITS}\PYG{p}{];}
+			\PYG{k+kt}{int} \PYG{n}{demodulated\PYGZus{}wave}\PYG{p}{[}\PYG{n}{BITS}\PYG{p}{];}
+			
+			\PYG{n}{get\PYGZus{}wave}\PYG{p}{(}\PYG{n}{array}\PYG{p}{,} \PYG{n}{LENGTH}\PYG{p}{);}
+			
+			\PYG{n}{zeros} \PYG{o}{=} \PYG{n+nb}{NULL}\PYG{p}{;}
+			\PYG{n}{analyze\PYGZus{}zeros}\PYG{p}{(}\PYG{n}{array}\PYG{p}{,} \PYG{o}{\PYGZam{}}\PYG{n}{zeros}\PYG{p}{,} \PYG{n}{BITS}\PYG{p}{,} \PYG{n}{PERIOD\PYGZus{}SAMPLE}\PYG{p}{,} \PYG{n}{get\PYGZus{}mean}\PYG{p}{(}\PYG{n}{array}\PYG{p}{,} \PYG{n}{LENGTH}\PYG{p}{));}
+			
+			\PYG{k+kt}{double} \PYG{n}{mean} \PYG{o}{=} \PYG{n}{get\PYGZus{}mean}\PYG{p}{(}\PYG{n}{zeros}\PYG{p}{,} \PYG{n}{BITS}\PYG{p}{);}
+			\PYG{n}{get\PYGZus{}normalized}\PYG{p}{(}\PYG{n}{normalized\PYGZus{}vector}\PYG{p}{,} \PYG{n}{zeros}\PYG{p}{,} \PYG{n}{mean}\PYG{p}{);}
+			\PYG{n}{print\PYGZus{}vector}\PYG{p}{(}\PYG{n}{normalized\PYGZus{}vector}\PYG{p}{);}
+			
+			\PYG{n}{free}\PYG{p}{(}\PYG{n}{zeros}\PYG{p}{);}
+			
+			\PYG{k}{return} \PYG{l+m+mi}{0}\PYG{p}{;}
+		\PYG{p}{\PYGZcb{}}
+\end{Verbatim}

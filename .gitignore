@@ -2,3 +2,8 @@
 *.aux
 *.log
 *.gz
+
+#C
+*.exe
+*.out
+

@@ -1,0 +1,31 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+		\PYG{c+cp}{\PYGZsh{}ifndef LUT\PYGZus{}H}
+		\PYG{c+cp}{\PYGZsh{}define LUT\PYGZus{}H}
+		
+		\PYG{c+cp}{\PYGZsh{}include} \PYG{c+cpf}{\PYGZlt{}stdlib.h\PYGZgt{}}
+		\PYG{c+cp}{\PYGZsh{}include} \PYG{c+cpf}{\PYGZlt{}stdio.h\PYGZgt{}}
+		
+		\PYG{c+cp}{\PYGZsh{}define DATA\PYGZus{}SIZE 10}
+		
+		\PYG{c+cp}{\PYGZsh{}define VECTOR\PYGZus{}SIZE 6400}
+		
+		\PYG{k}{static} \PYG{k}{const} \PYG{k+kt}{int} \PYG{n}{lut\PYGZus{}2T}\PYG{p}{[]} \PYG{o}{=} \PYG{p}{\PYGZob{}}
+		\PYG{l+m+mh}{0x8}\PYG{p}{,}\PYG{l+m+mh}{0x9}\PYG{p}{,}\PYG{l+m+mh}{0xa}\PYG{p}{,}\PYG{l+m+mh}{0xa}\PYG{p}{,}\PYG{l+m+mh}{0xb}\PYG{p}{,}\PYG{l+m+mh}{0xc}\PYG{p}{,}\PYG{l+m+mh}{0xc}\PYG{p}{,}\PYG{l+m+mh}{0xd}\PYG{p}{,}
+		\PYG{l+m+mh}{0xe}\PYG{p}{,}\PYG{l+m+mh}{0xe}\PYG{p}{,}\PYG{l+m+mh}{0xf}\PYG{p}{,}\PYG{l+m+mh}{0xf}\PYG{p}{,}\PYG{l+m+mh}{0xf}\PYG{p}{,}\PYG{l+m+mh}{0x10}\PYG{p}{,}\PYG{l+m+mh}{0x10}\PYG{p}{,}\PYG{l+m+mh}{0x10}\PYG{p}{,}
+		\PYG{l+m+mh}{0x10}\PYG{p}{,}\PYG{l+m+mh}{0x10}\PYG{p}{,}\PYG{l+m+mh}{0x10}\PYG{p}{,}\PYG{l+m+mh}{0x10}\PYG{p}{,}\PYG{l+m+mh}{0xf}\PYG{p}{,}\PYG{l+m+mh}{0xf}\PYG{p}{,}\PYG{l+m+mh}{0xf}\PYG{p}{,}\PYG{l+m+mh}{0xe}\PYG{p}{,}
+		\PYG{l+m+mh}{0xe}\PYG{p}{,}\PYG{l+m+mh}{0xd}\PYG{p}{,}\PYG{l+m+mh}{0xc}\PYG{p}{,}\PYG{l+m+mh}{0xc}\PYG{p}{,}\PYG{l+m+mh}{0xb}\PYG{p}{,}\PYG{l+m+mh}{0xa}\PYG{p}{,}\PYG{l+m+mh}{0xa}\PYG{p}{,}\PYG{l+m+mh}{0x9}\PYG{p}{,}
+		\PYG{l+m+mh}{0x8}\PYG{p}{,}\PYG{l+m+mh}{0x7}\PYG{p}{,}\PYG{l+m+mh}{0x6}\PYG{p}{,}\PYG{l+m+mh}{0x6}\PYG{p}{,}\PYG{l+m+mh}{0x5}\PYG{p}{,}\PYG{l+m+mh}{0x4}\PYG{p}{,}\PYG{l+m+mh}{0x4}\PYG{p}{,}\PYG{l+m+mh}{0x3}\PYG{p}{,}
+		\PYG{l+m+mh}{0x2}\PYG{p}{,}\PYG{l+m+mh}{0x2}\PYG{p}{,}\PYG{l+m+mh}{0x1}\PYG{p}{,}\PYG{l+m+mh}{0x1}\PYG{p}{,}\PYG{l+m+mh}{0x1}\PYG{p}{,}\PYG{l+m+mh}{0x0}\PYG{p}{,}\PYG{l+m+mh}{0x0}\PYG{p}{,}\PYG{l+m+mh}{0x0}\PYG{p}{,}
+		\PYG{l+m+mh}{0x0}\PYG{p}{,}\PYG{l+m+mh}{0x0}\PYG{p}{,}\PYG{l+m+mh}{0x0}\PYG{p}{,}\PYG{l+m+mh}{0x0}\PYG{p}{,}\PYG{l+m+mh}{0x1}\PYG{p}{,}\PYG{l+m+mh}{0x1}\PYG{p}{,}\PYG{l+m+mh}{0x1}\PYG{p}{,}\PYG{l+m+mh}{0x2}\PYG{p}{,}
+		\PYG{l+m+mh}{0x2}\PYG{p}{,}\PYG{l+m+mh}{0x3}\PYG{p}{,}\PYG{l+m+mh}{0x4}\PYG{p}{,}\PYG{l+m+mh}{0x4}\PYG{p}{,}\PYG{l+m+mh}{0x5}\PYG{p}{,}\PYG{l+m+mh}{0x6}\PYG{p}{,}\PYG{l+m+mh}{0x6}\PYG{p}{,}\PYG{l+m+mh}{0x7}\PYG{p}{\PYGZcb{};}
+		
+		\PYG{k}{static} \PYG{k}{const} \PYG{k+kt}{int} \PYG{n}{lut\PYGZus{}T}\PYG{p}{[]} \PYG{o}{=} \PYG{p}{\PYGZob{}}
+		\PYG{l+m+mh}{0x8}\PYG{p}{,}\PYG{l+m+mh}{0xa}\PYG{p}{,}\PYG{l+m+mh}{0xb}\PYG{p}{,}\PYG{l+m+mh}{0xc}\PYG{p}{,}\PYG{l+m+mh}{0xe}\PYG{p}{,}\PYG{l+m+mh}{0xf}\PYG{p}{,}\PYG{l+m+mh}{0xf}\PYG{p}{,}\PYG{l+m+mh}{0x10}\PYG{p}{,}
+		\PYG{l+m+mh}{0x10}\PYG{p}{,}\PYG{l+m+mh}{0x10}\PYG{p}{,}\PYG{l+m+mh}{0xf}\PYG{p}{,}\PYG{l+m+mh}{0xf}\PYG{p}{,}\PYG{l+m+mh}{0xe}\PYG{p}{,}\PYG{l+m+mh}{0xc}\PYG{p}{,}\PYG{l+m+mh}{0xb}\PYG{p}{,}\PYG{l+m+mh}{0xa}\PYG{p}{,}
+		\PYG{l+m+mh}{0x8}\PYG{p}{,}\PYG{l+m+mh}{0x6}\PYG{p}{,}\PYG{l+m+mh}{0x5}\PYG{p}{,}\PYG{l+m+mh}{0x4}\PYG{p}{,}\PYG{l+m+mh}{0x2}\PYG{p}{,}\PYG{l+m+mh}{0x1}\PYG{p}{,}\PYG{l+m+mh}{0x1}\PYG{p}{,}\PYG{l+m+mh}{0x0}\PYG{p}{,}
+		\PYG{l+m+mh}{0x0}\PYG{p}{,}\PYG{l+m+mh}{0x0}\PYG{p}{,}\PYG{l+m+mh}{0x1}\PYG{p}{,}\PYG{l+m+mh}{0x1}\PYG{p}{,}\PYG{l+m+mh}{0x2}\PYG{p}{,}\PYG{l+m+mh}{0x4}\PYG{p}{,}\PYG{l+m+mh}{0x5}\PYG{p}{,}\PYG{l+m+mh}{0x6}\PYG{p}{\PYGZcb{};}
+		
+		\PYG{k+kt}{void} \PYG{n+nf}{lut\PYGZus{}association}\PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{input\PYGZus{}binary\PYGZus{}signal}\PYG{p}{[],} \PYG{k+kt}{int} \PYG{o}{**}\PYG{n}{output\PYGZus{}analog\PYGZus{}signal}\PYG{p}{);}
+		
+		\PYG{c+cp}{\PYGZsh{}endif}
+\end{Verbatim}

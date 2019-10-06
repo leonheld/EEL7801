@@ -1,0 +1,18 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+		\PYG{c+cp}{\PYGZsh{}include} \PYG{c+cpf}{\PYGZlt{}stdio.h\PYGZgt{}}
+		\PYG{c+cp}{\PYGZsh{}include} \PYG{c+cpf}{\PYGZlt{}stdlib.h\PYGZgt{}}
+		
+		\PYG{c+cp}{\PYGZsh{}define BITS 10}
+		\PYG{c+cp}{\PYGZsh{}define PERIOD\PYGZus{}SAMPLE 2560}
+		\PYG{c+cp}{\PYGZsh{}define LENGTH (BITS*PERIOD\PYGZus{}SAMPLE)}
+		
+		\PYG{k+kt}{void} \PYG{n+nf}{get\PYGZus{}wave}\PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{array}\PYG{p}{[],} \PYG{k+kt}{int} \PYG{n}{size}\PYG{p}{);}
+		
+		\PYG{k+kt}{void} \PYG{n+nf}{analyze\PYGZus{}zeros}\PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{wave}\PYG{p}{[],} \PYG{k+kt}{int} \PYG{o}{**}\PYG{n}{zeros}\PYG{p}{,} \PYG{k}{const} \PYG{k+kt}{int} \PYG{n}{nro\PYGZus{}bits}\PYG{p}{,} \PYG{k}{const} \PYG{k+kt}{int} \PYG{n}{sampling\PYGZus{}period\PYGZus{}length}\PYG{p}{,} \PYG{k+kt}{double} \PYG{n}{reference}\PYG{p}{);}
+		
+		\PYG{k+kt}{double} \PYG{n+nf}{get\PYGZus{}mean}\PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{vector}\PYG{p}{[],} \PYG{k+kt}{int} \PYG{n}{vector\PYGZus{}size}\PYG{p}{);}
+		
+		\PYG{k+kt}{void} \PYG{n+nf}{get\PYGZus{}normalized}\PYG{p}{(}\PYG{k+kt}{double} \PYG{n}{normalized\PYGZus{}vector}\PYG{p}{[],} \PYG{k+kt}{int} \PYG{n}{vector}\PYG{p}{[],} \PYG{k+kt}{double} \PYG{n}{mean}\PYG{p}{);}
+		
+		\PYG{k+kt}{void} \PYG{n+nf}{print\PYGZus{}vector}\PYG{p}{(}\PYG{k+kt}{double} \PYG{n}{vector}\PYG{p}{[]);}
+\end{Verbatim}

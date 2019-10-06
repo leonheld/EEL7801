@@ -1,0 +1,40 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+		\PYG{c+cp}{\PYGZsh{}include} \PYG{c+cpf}{\PYGZdq{}lut.h\PYGZdq{}}
+		
+		\PYG{k+kt}{void} \PYG{n+nf}{lut\PYGZus{}association}\PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{input\PYGZus{}binary\PYGZus{}signal}\PYG{p}{[],} \PYG{k+kt}{int} \PYG{o}{**}\PYG{n}{output\PYGZus{}analog\PYGZus{}signal}\PYG{p}{)}
+		\PYG{p}{\PYGZob{}}
+		\PYG{n}{free}\PYG{p}{(}\PYG{o}{*}\PYG{n}{output\PYGZus{}analog\PYGZus{}signal}\PYG{p}{);}
+		\PYG{o}{*}\PYG{n}{output\PYGZus{}analog\PYGZus{}signal} \PYG{o}{=} \PYG{n}{malloc}\PYG{p}{(}\PYG{n}{VECTOR\PYGZus{}SIZE} \PYG{o}{*} \PYG{k}{sizeof}\PYG{p}{(}\PYG{k+kt}{int}\PYG{p}{));}
+		\PYG{k}{if} \PYG{p}{(}\PYG{o}{*}\PYG{n}{output\PYGZus{}analog\PYGZus{}signal} \PYG{o}{==} \PYG{n+nb}{NULL}\PYG{p}{)}	\PYG{k}{return}\PYG{p}{;}
+		\PYG{k}{for} \PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{i} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;} \PYG{n}{i} \PYG{o}{\PYGZlt{}} \PYG{n}{DATA\PYGZus{}SIZE}\PYG{p}{;} \PYG{n}{i}\PYG{o}{++}\PYG{p}{)}	\PYG{p}{\PYGZob{}}
+		\PYG{k+kt}{int} \PYG{n}{multiple1} \PYG{o}{=} \PYG{n}{i} \PYG{o}{*} \PYG{n}{DATA\PYGZus{}SIZE} \PYG{o}{*} \PYG{l+m+mi}{64}\PYG{p}{;}
+		\PYG{k}{if} \PYG{p}{(}\PYG{n}{input\PYGZus{}binary\PYGZus{}signal}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]} \PYG{o}{==} \PYG{l+m+mi}{1}\PYG{p}{)}	\PYG{p}{\PYGZob{}}
+		\PYG{k}{for} \PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{j} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;} \PYG{n}{j} \PYG{o}{\PYGZlt{}} \PYG{n}{DATA\PYGZus{}SIZE}\PYG{p}{;} \PYG{n}{j}\PYG{o}{++}\PYG{p}{)}	\PYG{p}{\PYGZob{}}
+		\PYG{k+kt}{int} \PYG{n}{multiple2} \PYG{o}{=} \PYG{n}{j} \PYG{o}{*} \PYG{l+m+mi}{64}\PYG{p}{;}
+		\PYG{k}{for} \PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{k} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;} \PYG{n}{k} \PYG{o}{\PYGZlt{}} \PYG{l+m+mi}{64}\PYG{p}{;} \PYG{n}{k}\PYG{o}{++}\PYG{p}{)}	\PYG{p}{\PYGZob{}}
+		\PYG{p}{(}\PYG{o}{*}\PYG{n}{output\PYGZus{}analog\PYGZus{}signal}\PYG{p}{)[}\PYG{n}{multiple1} \PYG{o}{+} \PYG{n}{multiple2} \PYG{o}{+} \PYG{n}{k}\PYG{p}{]} \PYG{o}{=} \PYG{n}{lut\PYGZus{}T}\PYG{p}{[}\PYG{n}{k} \PYG{o}{\PYGZpc{}} \PYG{l+m+mi}{32}\PYG{p}{];}
+		\PYG{p}{\PYGZcb{}}
+		\PYG{p}{\PYGZcb{}}
+		\PYG{p}{\PYGZcb{}}	\PYG{k}{else}	\PYG{p}{\PYGZob{}}
+		\PYG{k}{for} \PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{j} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;} \PYG{n}{j} \PYG{o}{\PYGZlt{}} \PYG{n}{DATA\PYGZus{}SIZE}\PYG{p}{;} \PYG{n}{j}\PYG{o}{++}\PYG{p}{)}	\PYG{p}{\PYGZob{}}
+		\PYG{k+kt}{int} \PYG{n}{multiple2} \PYG{o}{=} \PYG{n}{j} \PYG{o}{*} \PYG{l+m+mi}{64}\PYG{p}{;}
+		\PYG{k}{for} \PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{k} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;} \PYG{n}{k} \PYG{o}{\PYGZlt{}} \PYG{l+m+mi}{64}\PYG{p}{;} \PYG{n}{k}\PYG{o}{++}\PYG{p}{)}	\PYG{p}{\PYGZob{}}
+		\PYG{p}{(}\PYG{o}{*}\PYG{n}{output\PYGZus{}analog\PYGZus{}signal}\PYG{p}{)[}\PYG{n}{multiple1} \PYG{o}{+} \PYG{n}{multiple2} \PYG{o}{+} \PYG{n}{k}\PYG{p}{]} \PYG{o}{=} \PYG{n}{lut\PYGZus{}2T}\PYG{p}{[}\PYG{n}{k}\PYG{p}{];}
+		\PYG{p}{\PYGZcb{}}
+		\PYG{p}{\PYGZcb{}}
+		\PYG{p}{\PYGZcb{}}
+		\PYG{p}{\PYGZcb{}}
+		
+		\PYG{p}{\PYGZcb{}}
+		
+		\PYG{k+kt}{void} \PYG{n+nf}{print\PYGZus{}vector}\PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{vector}\PYG{p}{[],} \PYG{k+kt}{int} \PYG{n}{size}\PYG{p}{)\PYGZob{}}
+		\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Modulated vector: [\PYGZdq{}}\PYG{p}{);}
+		\PYG{k}{for} \PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{i} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;} \PYG{n}{i} \PYG{o}{\PYGZlt{}} \PYG{n}{size}\PYG{p}{;} \PYG{n}{i}\PYG{o}{++}\PYG{p}{)}	\PYG{p}{\PYGZob{}}
+		\PYG{k}{if} \PYG{p}{(}\PYG{n}{i} \PYG{o}{!=} \PYG{n}{size} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}\PYG{p}{)}	\PYG{p}{\PYGZob{}}
+		\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}\PYGZpc{}d,\PYGZdq{}}\PYG{p}{,} \PYG{n}{vector}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]);}
+		\PYG{p}{\PYGZcb{}}	\PYG{k}{else}	\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}\PYGZpc{}d]}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{vector}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]);}
+		\PYG{p}{\PYGZcb{}}
+		\PYG{p}{\PYGZcb{}}
+		
+		
+\end{Verbatim}

@@ -1,0 +1,81 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+		\PYG{c+cp}{\PYGZsh{}include} \PYG{c+cpf}{\PYGZdq{}functions.h\PYGZdq{}}
+		
+		\PYG{k+kt}{void} \PYG{n+nf}{get\PYGZus{}wave}\PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{array}\PYG{p}{[],} \PYG{k+kt}{int} \PYG{n}{size}\PYG{p}{)}
+		\PYG{p}{\PYGZob{}}
+		\PYG{k+kt}{FILE} \PYG{o}{*}\PYG{n}{myfile}\PYG{p}{;}
+		
+		\PYG{n}{myfile}\PYG{o}{=}\PYG{n}{fopen}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}new\PYGZus{}mod\PYGZus{}result.txt\PYGZdq{}}\PYG{p}{,} \PYG{l+s}{\PYGZdq{}r\PYGZdq{}}\PYG{p}{);}
+		
+		\PYG{k}{for}\PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{i} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;} \PYG{n}{i} \PYG{o}{\PYGZlt{}} \PYG{n}{LENGTH}\PYG{p}{;} \PYG{n}{i}\PYG{o}{++}\PYG{p}{)}   \PYG{p}{\PYGZob{}}
+		\PYG{n}{fscanf}\PYG{p}{(}\PYG{n}{myfile}\PYG{p}{,}\PYG{l+s}{\PYGZdq{}\PYGZpc{}d\PYGZdq{}}\PYG{p}{,} \PYG{o}{\PYGZam{}}\PYG{n}{array}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]);}
+		\PYG{p}{\PYGZcb{}}
+		
+		\PYG{n}{fclose}\PYG{p}{(}\PYG{n}{myfile}\PYG{p}{);}
+		
+		\PYG{p}{\PYGZcb{}}
+		
+		\PYG{k+kt}{void} \PYG{n+nf}{analyze\PYGZus{}zeros}\PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{wave}\PYG{p}{[],} \PYG{k+kt}{int} \PYG{o}{**}\PYG{n}{zeros}\PYG{p}{,} \PYG{k}{const} \PYG{k+kt}{int} \PYG{n}{nro\PYGZus{}bits}\PYG{p}{,} \PYG{k}{const} \PYG{k+kt}{int} \PYG{n}{sampling\PYGZus{}period\PYGZus{}length}\PYG{p}{,} \PYG{k+kt}{double} \PYG{n}{reference}\PYG{p}{)}
+		\PYG{p}{\PYGZob{}}
+			\PYG{n}{free}\PYG{p}{(}\PYG{o}{*}\PYG{n}{zeros}\PYG{p}{);}
+			\PYG{o}{*}\PYG{n}{zeros} \PYG{o}{=} \PYG{n}{malloc}\PYG{p}{(}\PYG{k}{sizeof}\PYG{p}{(}\PYG{k+kt}{int}\PYG{p}{)} \PYG{o}{*} \PYG{n}{nro\PYGZus{}bits}\PYG{p}{);}
+			\PYG{k}{if} \PYG{p}{(}\PYG{o}{*}\PYG{n}{zeros} \PYG{o}{==} \PYG{n+nb}{NULL}\PYG{p}{)} \PYG{k}{return}\PYG{p}{;}
+			\PYG{k+kt}{int} \PYG{n}{zero\PYGZus{}sampling}\PYG{p}{[}\PYG{n}{nro\PYGZus{}bits}\PYG{p}{];}
+			\PYG{k+kt}{int} \PYG{n}{positive} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;}
+			\PYG{k+kt}{int} \PYG{n}{negative} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;}
+			\PYG{k+kt}{int} \PYG{n}{dif\PYGZus{}signal} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;}
+			
+			\PYG{k}{for} \PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{i} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;} \PYG{n}{i} \PYG{o}{\PYGZlt{}} \PYG{n}{nro\PYGZus{}bits}\PYG{p}{;} \PYG{n}{i}\PYG{o}{++}\PYG{p}{)}  \PYG{p}{\PYGZob{}}
+				\PYG{k+kt}{int} \PYG{n}{vector\PYGZus{}position} \PYG{o}{=} \PYG{n}{PERIOD\PYGZus{}SAMPLE} \PYG{o}{*} \PYG{n}{i}\PYG{p}{;}
+				\PYG{n}{zero\PYGZus{}sampling}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;}
+				\PYG{k}{for} \PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{j} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;} \PYG{n}{j} \PYG{o}{\PYGZlt{}} \PYG{n}{sampling\PYGZus{}period\PYGZus{}length}\PYG{p}{;} \PYG{n}{j}\PYG{o}{++}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+					\PYG{k}{if} \PYG{p}{(}\PYG{n}{dif\PYGZus{}signal} \PYG{o}{\PYGZgt{}} \PYG{n}{nro\PYGZus{}bits}\PYG{p}{)}  \PYG{p}{\PYGZob{}}
+						\PYG{k}{if} \PYG{p}{(}\PYG{n}{wave}\PYG{p}{[}\PYG{n}{vector\PYGZus{}position} \PYG{o}{+} \PYG{n}{j}\PYG{p}{]} \PYG{o}{\PYGZgt{}} \PYG{n}{reference}\PYG{p}{)}   \PYG{p}{\PYGZob{}}
+							\PYG{n}{positive} \PYG{o}{=} \PYG{l+m+mi}{1}\PYG{p}{;}
+						\PYG{p}{\PYGZcb{}}
+						\PYG{k}{if} \PYG{p}{(}\PYG{n}{wave}\PYG{p}{[}\PYG{n}{vector\PYGZus{}position} \PYG{o}{+} \PYG{n}{j}\PYG{p}{]} \PYG{o}{\PYGZlt{}} \PYG{n}{reference}\PYG{p}{)}   \PYG{p}{\PYGZob{}}
+							\PYG{n}{negative} \PYG{o}{=} \PYG{l+m+mi}{1}\PYG{p}{;}
+						\PYG{p}{\PYGZcb{}}
+						\PYG{k}{if} \PYG{p}{(}\PYG{n}{positive} \PYG{o}{\PYGZam{}\PYGZam{}} \PYG{n}{negative}\PYG{p}{)}   \PYG{p}{\PYGZob{}}
+							\PYG{n}{zero\PYGZus{}sampling}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]} \PYG{o}{+=} \PYG{l+m+mi}{1}\PYG{p}{;}
+							\PYG{n}{positive} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;}
+							\PYG{n}{negative} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;}
+							\PYG{n}{dif\PYGZus{}signal} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;}
+						\PYG{p}{\PYGZcb{}}
+					\PYG{p}{\PYGZcb{}}
+					\PYG{n}{dif\PYGZus{}signal}\PYG{o}{++}\PYG{p}{;}
+				\PYG{p}{\PYGZcb{}}
+			\PYG{p}{\PYGZcb{}}
+			\PYG{k}{for} \PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{i} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;} \PYG{n}{i} \PYG{o}{\PYGZlt{}} \PYG{n}{BITS}\PYG{p}{;} \PYG{n}{i}\PYG{o}{++}\PYG{p}{)\PYGZob{}}
+				\PYG{p}{(}\PYG{o}{*}\PYG{n}{zeros}\PYG{p}{)[}\PYG{n}{i}\PYG{p}{]} \PYG{o}{=} \PYG{n}{zero\PYGZus{}sampling}\PYG{p}{[}\PYG{n}{i}\PYG{p}{];}
+			\PYG{p}{\PYGZcb{}}
+		\PYG{p}{\PYGZcb{}}
+		
+		\PYG{k+kt}{double} \PYG{n+nf}{get\PYGZus{}mean}\PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{vector}\PYG{p}{[],} \PYG{k+kt}{int} \PYG{n}{vector\PYGZus{}size}\PYG{p}{)}
+		\PYG{p}{\PYGZob{}}
+			\PYG{k+kt}{double} \PYG{n}{sum} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;}
+			\PYG{k}{for} \PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{i} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;} \PYG{n}{i} \PYG{o}{\PYGZlt{}} \PYG{n}{vector\PYGZus{}size}\PYG{p}{;} \PYG{n}{i}\PYG{o}{++}\PYG{p}{)}   \PYG{p}{\PYGZob{}}
+				\PYG{n}{sum} \PYG{o}{+=} \PYG{n}{vector}\PYG{p}{[}\PYG{n}{i}\PYG{p}{];}
+			\PYG{p}{\PYGZcb{}}
+			
+			\PYG{k}{return} \PYG{n}{sum}\PYG{o}{/}\PYG{n}{vector\PYGZus{}size}\PYG{p}{;}
+		\PYG{p}{\PYGZcb{}}
+		
+		\PYG{k+kt}{void} \PYG{n+nf}{get\PYGZus{}normalized}\PYG{p}{(}\PYG{k+kt}{double} \PYG{n}{normalized\PYGZus{}vector}\PYG{p}{[],} \PYG{k+kt}{int} \PYG{n}{vector}\PYG{p}{[],} \PYG{k+kt}{double} \PYG{n}{mean}\PYG{p}{)}
+		\PYG{p}{\PYGZob{}}
+			\PYG{k}{for} \PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{i} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;} \PYG{n}{i} \PYG{o}{\PYGZlt{}} \PYG{n}{BITS}\PYG{p}{;} \PYG{n}{i}\PYG{o}{++}\PYG{p}{)}   \PYG{p}{\PYGZob{}}
+				\PYG{n}{normalized\PYGZus{}vector}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]} \PYG{o}{=} \PYG{p}{(}\PYG{k+kt}{double}\PYG{p}{)}\PYG{n}{vector}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]} \PYG{o}{/} \PYG{n}{mean}\PYG{p}{;}
+			\PYG{p}{\PYGZcb{}}
+		\PYG{p}{\PYGZcb{}}
+		
+		\PYG{k+kt}{void} \PYG{n+nf}{print\PYGZus{}vector}\PYG{p}{(}\PYG{k+kt}{double} \PYG{n}{vector}\PYG{p}{[])}
+		\PYG{p}{\PYGZob{}}
+			\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Demodulated vector: [ \PYGZdq{}}\PYG{p}{);}
+			\PYG{k}{for} \PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{i} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;} \PYG{n}{i} \PYG{o}{\PYGZlt{}} \PYG{n}{BITS}\PYG{p}{;} \PYG{n}{i}\PYG{o}{++}\PYG{p}{)}    \PYG{p}{\PYGZob{}}
+				\PYG{k}{if} \PYG{p}{(}\PYG{n}{vector}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]} \PYG{o}{\PYGZgt{}} \PYG{l+m+mi}{1}\PYG{p}{)}    \PYG{p}{\PYGZob{}}
+					\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}1 \PYGZdq{}}\PYG{p}{);}
+				\PYG{p}{\PYGZcb{}}   \PYG{k}{else}    \PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}0 \PYGZdq{}}\PYG{p}{);}
+			\PYG{p}{\PYGZcb{}}
+			\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}]}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{);}
+		\PYG{p}{\PYGZcb{}}
+\end{Verbatim}

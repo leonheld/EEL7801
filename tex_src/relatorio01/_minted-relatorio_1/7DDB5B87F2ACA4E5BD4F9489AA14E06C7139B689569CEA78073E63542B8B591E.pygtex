@@ -1,0 +1,62 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{function}\PYG{+w}{ }[NORMALIZED\PYGZus{}BIT\PYGZus{}ERROR\PYGZus{}RATE] \PYG{p}{=}\PYG{+w}{ }\PYG{n+nf}{fsk\PYGZus{}demod}\PYG{p}{(}sinal\PYGZus{}modulado, ruido\PYG{p}{)}
+
+\PYG{n}{onda\PYGZus{}transmitida} \PYG{p}{=} \PYG{n}{awgn}\PYG{p}{(}\PYG{n}{sinal\PYGZus{}modulado}\PYG{p}{,} \PYG{n}{ruido}\PYG{p}{);} \PYG{c}{\PYGZpc{}adiciona ruido no sinal}
+
+\PYG{n}{data} \PYG{p}{=} \PYG{p}{[}\PYG{l+m+mi}{1} \PYG{l+m+mi}{0} \PYG{l+m+mi}{1} \PYG{l+m+mi}{0} \PYG{l+m+mi}{1} \PYG{l+m+mi}{1} \PYG{l+m+mi}{1} \PYG{l+m+mi}{0} \PYG{l+m+mi}{0} \PYG{l+m+mi}{1}\PYG{p}{];} \PYG{c}{\PYGZpc{}necessario pra computar a taxa de erro}
+\PYG{n}{nro\PYGZus{}bits} \PYG{p}{=} \PYG{n+nb}{length}\PYG{p}{(}\PYG{n}{data}\PYG{p}{);}
+
+\PYG{n}{holdup\PYGZus{}time} \PYG{p}{=} \PYG{l+m+mi}{10}\PYG{p}{;}
+\PYG{n}{frequencia\PYGZus{}carrier} \PYG{p}{=} \PYG{l+m+mi}{1000}\PYG{p}{;}
+\PYG{n}{periodo\PYGZus{}carrier} \PYG{p}{=} \PYG{l+m+mi}{1}\PYG{o}{/}\PYG{n}{frequencia\PYGZus{}carrier}\PYG{p}{;}
+
+\PYG{n}{f\PYGZus{}sampling} \PYG{p}{=} \PYG{n}{frequencia\PYGZus{}carrier} \PYG{o}{*} \PYG{l+m+mi}{100}\PYG{p}{;}
+\PYG{n}{periodo\PYGZus{}sampling} \PYG{p}{=} \PYG{l+m+mi}{1}\PYG{o}{/}\PYG{n}{f\PYGZus{}sampling}\PYG{p}{;}
+\PYG{n}{holdup\PYGZus{}time} \PYG{p}{=} \PYG{l+m+mi}{10}\PYG{p}{;}
+\PYG{n}{tempo\PYGZus{}sampling} \PYG{p}{=} \PYG{l+m+mi}{0}\PYG{p}{:}\PYG{n}{periodo\PYGZus{}sampling}\PYG{p}{:(}\PYG{n}{periodo\PYGZus{}carrier}\PYG{o}{*}\PYG{n}{holdup\PYGZus{}time}\PYG{p}{);}
+\PYG{n}{negative}\PYG{p}{=}\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{n}{positive}\PYG{p}{=}\PYG{l+m+mi}{0}\PYG{p}{;}
+
+\PYG{n}{sampleValue} \PYG{p}{=} \PYG{n}{nro\PYGZus{}bits}\PYG{p}{;}
+\PYG{n}{dif\PYGZus{}sinal}\PYG{p}{=}\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{n}{nro\PYGZus{}zeros}\PYG{p}{=}\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{n}{amostra\PYGZus{}de\PYGZus{}zeros}\PYG{p}{=[];}
+\PYG{n}{k}\PYG{p}{=}\PYG{l+m+mi}{1}\PYG{p}{;}
+\PYG{k}{for} \PYG{n+nb}{i}\PYG{p}{=}\PYG{l+m+mi}{1}\PYG{p}{:}\PYG{l+m+mi}{10}
+		\PYG{k}{for} \PYG{n+nb}{j}\PYG{p}{=}\PYG{l+m+mi}{1}\PYG{p}{:}\PYG{n+nb}{length}\PYG{p}{(}\PYG{n}{tempo\PYGZus{}sampling}\PYG{p}{)}
+			\PYG{k}{if}\PYG{p}{(}\PYG{n}{dif\PYGZus{}sinal}\PYG{o}{\PYGZgt{}}\PYG{n}{sampleValue}\PYG{p}{)}
+				\PYG{k}{if}\PYG{p}{(}\PYG{n}{onda\PYGZus{}transmitida}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{n}{k}\PYG{p}{)}\PYG{o}{\PYGZgt{}}\PYG{l+m+mi}{0}\PYG{p}{)}
+					\PYG{n}{positive}\PYG{p}{=}\PYG{l+m+mi}{1}\PYG{p}{;}
+				\PYG{k}{end}
+				\PYG{k}{if}\PYG{p}{(}\PYG{n}{onda\PYGZus{}transmitida}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{n}{k}\PYG{p}{)}\PYG{o}{\PYGZlt{}}\PYG{l+m+mi}{0}\PYG{p}{)}
+					\PYG{n}{negative}\PYG{p}{=}\PYG{l+m+mi}{1}\PYG{p}{;}
+				\PYG{k}{end}
+			\PYG{k}{end}
+		\PYG{n}{k}\PYG{o}{++}\PYG{p}{;}
+		\PYG{n}{dif\PYGZus{}sinal}\PYG{p}{=}\PYG{n}{dif\PYGZus{}sinal}\PYG{o}{+}\PYG{l+m+mi}{1}\PYG{p}{;}
+		\PYG{k}{if}\PYG{p}{(}\PYG{n}{positive}\PYG{o}{==}\PYG{l+m+mi}{1} \PYG{o}{\PYGZam{}\PYGZam{}} \PYG{n}{negative}\PYG{o}{==}\PYG{l+m+mi}{1}\PYG{p}{)}
+			\PYG{n}{nro\PYGZus{}zeros}\PYG{o}{++}\PYG{p}{;}
+			\PYG{n}{positive}\PYG{p}{=}\PYG{l+m+mi}{0}\PYG{p}{;}
+			\PYG{n}{dif\PYGZus{}sinal}\PYG{p}{=}\PYG{l+m+mi}{0}\PYG{p}{;}
+			\PYG{n}{negative}\PYG{p}{=}\PYG{l+m+mi}{0}\PYG{p}{;}
+		\PYG{k}{end}
+	\PYG{k}{end}
+
+	\PYG{n}{amostra\PYGZus{}de\PYGZus{}zeros}\PYG{p}{=[}\PYG{n}{amostra\PYGZus{}de\PYGZus{}zeros} \PYG{n}{nro\PYGZus{}zeros}\PYG{p}{];}
+	\PYG{n}{nro\PYGZus{}zeros}\PYG{p}{=}\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{k}{end}
+
+\PYG{n}{amostra\PYGZus{}de\PYGZus{}zeros}\PYG{p}{=}\PYG{n}{amostra\PYGZus{}de\PYGZus{}zeros}\PYG{o}{/}\PYG{n}{mean}\PYG{p}{(}\PYG{n}{amostra\PYGZus{}de\PYGZus{}zeros}\PYG{p}{);}
+
+	\PYG{n}{filtData}\PYG{p}{=[];}
+	\PYG{k}{for} \PYG{n+nb}{i}\PYG{p}{=}\PYG{l+m+mi}{1}\PYG{p}{:}\PYG{n+nb}{length}\PYG{p}{(}\PYG{n}{amostra\PYGZus{}de\PYGZus{}zeros}\PYG{p}{)}
+		\PYG{k}{if}\PYG{p}{(}\PYG{n}{amostra\PYGZus{}de\PYGZus{}zeros}\PYG{p}{(}\PYG{n+nb}{i}\PYG{p}{)}\PYG{o}{\PYGZgt{}}\PYG{p}{=}\PYG{l+m+mi}{1}\PYG{p}{)}
+		\PYG{n}{filtData}\PYG{p}{=[}\PYG{n}{filtData} \PYG{l+m+mi}{1}\PYG{p}{];}
+	\PYG{k}{else}
+		\PYG{n}{filtData}\PYG{p}{=[}\PYG{n}{filtData} \PYG{l+m+mi}{0}\PYG{p}{];}
+	\PYG{k}{end}
+\PYG{k}{end}
+
+\PYG{p}{[}\PYG{n}{BIT\PYGZus{}ERROR\PYGZus{}RATE} \PYG{n}{NORMALIZED\PYGZus{}BIT\PYGZus{}ERROR\PYGZus{}RATE}\PYG{p}{]=}\PYG{n}{biterr}\PYG{p}{(}\PYG{n}{data}\PYG{p}{,}\PYG{n}{filtData}\PYG{p}{);}
+\PYG{k}{end}
+\end{Verbatim}
